@@ -3,6 +3,9 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const db = require('./config/db')
+
+const authRoutes = require('./routes/authRoutes')
+
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -27,6 +30,8 @@ app.get('/test-db', async (req, res) => {
       .json({ message: 'Database query failed!', error: error.message })
   }
 })
+
+app.use('/api', authRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
