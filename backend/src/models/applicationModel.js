@@ -1,28 +1,55 @@
 const pool = require('../config/db')
 
-async function getAllApplications() {
-  try {
-    const [rows] = await pool.execute(
-      `SELECT 
-                wa.id, 
-                wa.workshop_id, 
-                w.name AS workshop_name,
-                wa.first_name, 
-                wa.last_name, 
-                wa.email, 
-                wa.phone, 
-                wa.date_of_birth, 
-                wa.faculty_school, 
-                wa.additional_text, 
-                wa.source_channel, 
-                wa.applied_at
-             FROM workshop_applications wa
-             JOIN workshops w ON wa.workshop_id = w.id
-             ORDER BY wa.applied_at DESC`
+async function getAllApplications(options = {}) {
+  let query = `
+        SELECT 
+            wa.id, 
+            wa.workshop_id, 
+            w.name AS workshop_name,
+            wa.first_name, 
+            wa.last_name, 
+            wa.email, 
+            wa.phone, 
+            wa.date_of_birth, 
+            wa.faculty_school, 
+            wa.additional_text, 
+            wa.source_channel, 
+            wa.applied_at
+         FROM workshop_applications wa
+         JOIN workshops w ON wa.workshop_id = w.id
+    `
+  const params = []
+  const conditions = []
+
+  if (options.search) {
+    const searchTerm = `%${options.search}%`
+    conditions.push(
+      `(wa.first_name LIKE ? OR wa.last_name LIKE ? OR wa.email LIKE ?)`
     )
+    params.push(searchTerm, searchTerm, searchTerm)
+  }
+
+  if (options.workshopId) {
+    conditions.push(`wa.workshop_id = ?`)
+    params.push(options.workshopId)
+  }
+
+  if (options.sourceChannel) {
+    conditions.push(`wa.source_channel = ?`)
+    params.push(options.sourceChannel)
+  }
+
+  if (conditions.length > 0) {
+    query += ` WHERE ${conditions.join(' AND ')}`
+  }
+
+  query += ` ORDER BY wa.applied_at DESC`
+
+  try {
+    const [rows] = await pool.execute(query, params)
     return rows
   } catch (error) {
-    console.error('Greška pri dohvaćanju svih prijava:', error)
+    console.error('Greška pri dohvaćanju svih prijava (sa filterima):', error)
     throw new Error('Greška pri dohvaćanju prijava.')
   }
 }
