@@ -14,4 +14,6 @@ router.post('/', applicationsController.addApplication)
 
 router.delete('/:id', applicationsController.deleteApplication)
 
+router.get('/export', applicationsController.exportApplicationsCsv)
+
 module.exports = router
