@@ -16,4 +16,6 @@ router.put('/:id', membersController.updateMember)
 
 router.delete('/:id', membersController.deleteMember)
 
+router.get('/export', membersController.exportMembersCsv)
+
 module.exports = router
