@@ -3,6 +3,7 @@ const cors = require('cors')
 const authRoutes = require('./src/routes/authRoutes')
 const membersRoutes = require('./src/routes/membersRoutes')
 const workshopsRoutes = require('./src/routes/workshopsRoutes')
+const applicationsRoutes = require('./src/routes/applicationsRoutes')
 require('dotenv').config()
 
 const db = require('./src/config/db')
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use('/api/auth', authRoutes)
 app.use('/api/members', membersRoutes)
 app.use('/api/workshops', workshopsRoutes)
+app.use('/api/applications', applicationsRoutes)
 
 app.get('/', (req, res) => {
   res.send('GTHub Admin Backend je pokrenut!')
