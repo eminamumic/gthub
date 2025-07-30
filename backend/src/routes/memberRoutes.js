@@ -1,14 +1,19 @@
 const express = require('express')
-const {
-  getUsers,
-  updateMembershipEndDate,
-} = require('../controllers/userController')
-const { protect } = require('../middleware/authMiddleware')
+const membersController = require('../controllers/membersController')
+const authMiddleware = require('../middleware/authMiddleware')
 
 const router = express.Router()
 
-router.get('/', protect, getUsers)
+router.use(authMiddleware.authenticateToken)
 
-router.put('/:id', protect, updateMembershipEndDate)
+router.get('/', membersController.getMembers)
+
+router.get('/:id', membersController.getMember)
+
+router.post('/', membersController.addMember)
+
+router.put('/:id', membersController.updateMember)
+
+router.delete('/:id', membersController.deleteMember)
 
 module.exports = router
