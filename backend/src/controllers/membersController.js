@@ -1,4 +1,5 @@
 const memberModel = require('../models/memberModel')
+const { Parser } = require('json2csv')
 
 const isValidDate = (dateString) => {
   return dateString && !isNaN(new Date(dateString).getTime())
@@ -190,10 +191,41 @@ async function deleteMember(req, res) {
   }
 }
 
+async function exportMembersCsv(req, res) {
+  try {
+    const members = await memberModel.getAllMembers()
+
+    const fields = [
+      { label: 'ID', value: 'id' },
+      { label: 'Ime', value: 'first_name' },
+      { label: 'Prezime', value: 'last_name' },
+      { label: 'Datum rođenja', value: 'date_of_birth' },
+      { label: 'Email', value: 'email' },
+      { label: 'Telefon', value: 'phone' },
+      { label: 'Fakultet', value: 'faculty' },
+      { label: 'Datum početka članarine', value: 'membership_start_date' },
+      { label: 'Datum isteka članarine', value: 'membership_expiry_date' },
+    ]
+
+    const json2csvParser = new Parser({ fields })
+    const csv = json2csvParser.parse(members)
+
+    res.header('Content-Type', 'text/csv')
+    res.attachment('gthub_members.csv')
+    res.send(csv)
+  } catch (error) {
+    console.error('Greška pri exportu članova u CSV:', error.message)
+    res
+      .status(500)
+      .json({ message: 'Interna serverska greška pri exportu članova.' })
+  }
+}
+
 module.exports = {
   getMembers,
   getMember,
   addMember,
   updateMember,
   deleteMember,
+  exportMembersCsv,
 }
