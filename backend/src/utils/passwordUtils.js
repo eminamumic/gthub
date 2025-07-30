@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs')
-import { SALT_ROUNDS } from '../config/constants'
+const SALT_ROUNDS = require('../config/constants')
 
 async function hashPassword(password) {
   try {
