@@ -10,11 +10,21 @@ const isValidEmail = (email) => {
 }
 
 async function getMembers(req, res) {
+  const { search, expiringSoon } = req.query
+
+  const options = {
+    search: search || null,
+    expiringSoon: expiringSoon === 'true',
+  }
+
   try {
-    const members = await memberModel.getAllMembers()
+    const members = await memberModel.getAllMembers(options)
     res.status(200).json(members)
   } catch (error) {
-    console.error('Greška pri dohvaćanju članova (kontroler):', error.message)
+    console.error(
+      'Greška pri dohvaćanju članova (kontroler, sa filterima):',
+      error.message
+    )
     res
       .status(500)
       .json({ message: 'Interna serverska greška pri dohvaćanju članova.' })
