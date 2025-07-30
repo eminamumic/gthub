@@ -1,30 +1,26 @@
 const jwt = require('jsonwebtoken')
+const { jwtSecret } = require('../config/jwt')
 
-const protect = (req, res, next) => {
-  let token
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    try {
-      token = req.headers.authorization.split(' ')[1]
-
-      const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-      req.admin = decoded
-      next()
-    } catch (error) {
-      console.error('Token verifikacija neuspješna:', error.message)
-      return res
-        .status(401)
-        .json({ message: 'Nije autorizovano, token neuspješan.' })
-    }
-  }
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
 
   if (!token) {
-    return res.status(401).json({ message: 'Nije autorizovano, nema tokena.' })
+    return res
+      .status(401)
+      .json({ message: 'Pristup odbijen. Token nije dostavljen.' })
   }
+
+  jwt.verify(token, jwtSecret, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Nevažeći ili istekao token.' })
+    }
+
+    req.user = user
+    next()
+  })
 }
 
-module.exports = { protect }
+module.exports = {
+  authenticateToken,
+}
