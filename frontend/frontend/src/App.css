@@ -1,15 +1,193 @@
-/* frontend/src/App.css */
 .App {
   text-align: center;
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: #f4f7f6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: flex-start;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.App-header {
+  background-color: #282c34;
+  width: 100%;
+  padding: 20px 0;
   color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-nav {
+  width: 100%;
+  background-color: #333;
+  padding: 10px 0;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 8px;
+}
+
+.main-nav button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.main-nav button:hover {
+  background-color: #0056b3;
+}
+
+.login-container,
+.change-password-container {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin-top: 50px;
+}
+
+.login-container h2,
+.change-password-container h2 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+}
+
+.form-group input[type='text'],
+.form-group input[type='password'] {
+  width: calc(100% - 20px);
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1.1em;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input[type='text']:focus,
+.form-group input[type='password']:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+button[type='submit'] {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  width: 100%;
+}
+
+button[type='submit']:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+
+.success-message {
+  color: #28a745;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.dashboard-container h2 {
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: #e9ecef;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-card h3 {
+  color: #007bff;
+  margin-bottom: 10px;
+  font-size: 1.4em;
+}
+
+.stat-card p {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.stat-card li {
+  padding: 8px 0;
+  border-bottom: 1px solid #dee2e6;
+  color: #495057;
+  font-size: 1.1em;
+}
+
+.stat-card li:last-child {
+  border-bottom: none;
+}
+
+.stat-card.full-width {
+  grid-column: 1 / -1;
 }
