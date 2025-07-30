@@ -11,11 +11,22 @@ const isValidEmail = (email) => {
 }
 
 async function getApplications(req, res) {
+  const { search, workshopId, sourceChannel } = req.query
+
+  const options = {
+    search: search || null,
+    workshopId: workshopId ? parseInt(workshopId) : null,
+    sourceChannel: sourceChannel || null,
+  }
+
   try {
-    const applications = await applicationModel.getAllApplications()
+    const applications = await applicationModel.getAllApplications(options)
     res.status(200).json(applications)
   } catch (error) {
-    console.error('Greška pri dohvaćanju prijava (kontroler):', error.message)
+    console.error(
+      'Greška pri dohvaćanju prijava (kontroler, sa filterima):',
+      error.message
+    )
     res
       .status(500)
       .json({ message: 'Interna serverska greška pri dohvaćanju prijava.' })
