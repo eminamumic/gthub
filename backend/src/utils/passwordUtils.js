@@ -1,9 +1,10 @@
 const bcrypt = require('bcryptjs')
-const SALT_ROUNDS = require('../config/constants')
+
+const saltRounds = 10
 
 async function hashPassword(password) {
   try {
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
     return hashedPassword
   } catch (error) {
     console.error('Greška pri heširanju lozinke:', error)
