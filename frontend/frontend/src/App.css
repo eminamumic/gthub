@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #f4f7f6;
+  background-color: var(--background-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -11,17 +11,23 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: var(--primary-color);
   width: 100%;
   padding: 20px 0;
-  color: white;
+  color: var(--text-color-light);
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.App-header h1 {
+  color: var(--text-color-light);
+  font-family: 'Oswald', sans-serif;
+  font-size: 3em;
+}
+
 .main-nav {
   width: 100%;
-  background-color: #333;
+  background-color: var(--text-color-dark);
   padding: 10px 0;
   margin-bottom: 30px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -32,23 +38,18 @@
 }
 
 .main-nav button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  background-color: var(--secondary-color);
+  color: var(--text-color-light);
 }
 
 .main-nav button:hover {
-  background-color: #0056b3;
+  background-color: #d1751d;
 }
 
 .login-container,
-.change-password-container {
-  background-color: #ffffff;
+.change-password-container,
+.dashboard-container {
+  background-color: var(--background-card);
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -57,11 +58,19 @@
   margin-top: 50px;
 }
 
+.dashboard-container {
+  max-width: 1200px;
+  padding: 30px;
+  margin-top: 30px;
+}
+
 .login-container h2,
-.change-password-container h2 {
-  color: #333;
+.change-password-container h2,
+.dashboard-container h2 {
+  color: var(--primary-color);
   margin-bottom: 25px;
   font-size: 2em;
+  font-family: 'Oswald', sans-serif;
 }
 
 .form-group {
@@ -72,81 +81,63 @@
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #555;
+  color: var(--text-color-dark);
   font-weight: bold;
+  font-family: 'Roboto', sans-serif;
 }
 
 .form-group input[type='text'],
 .form-group input[type='password'] {
   width: calc(100% - 20px);
   padding: 12px 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 1.1em;
+  font-family: 'Roboto', sans-serif;
   transition: border-color 0.3s ease;
 }
 
 .form-group input[type='text']:focus,
 .form-group input[type='password']:focus {
-  border-color: #007bff;
+  border-color: var(--neutral-color);
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 0 5px rgba(108, 200, 191, 0.4);
 }
 
 button[type='submit'] {
-  background-color: #28a745;
-  color: white;
-  border: none;
+  background-color: var(--primary-color);
+  color: var(--text-color-light);
   padding: 12px 25px;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 1.2em;
   transition: background-color 0.3s ease, transform 0.1s ease;
   width: 100%;
 }
 
 button[type='submit']:hover {
-  background-color: #218838;
+  background-color: #6a4488;
   transform: translateY(-2px);
 }
 
 .error-message {
-  color: #dc3545;
+  color: var(--error-color);
   margin-top: 15px;
   font-weight: bold;
   font-size: 0.95em;
+  font-family: 'Roboto', sans-serif;
 }
 
 .success-message {
-  color: #28a745;
+  color: var(--success-color);
   margin-top: 15px;
   font-weight: bold;
   font-size: 0.95em;
-}
-
-.dashboard-container {
-  width: 100%;
-  max-width: 1200px;
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
-}
-
-.dashboard-container h2 {
-  color: #333;
-  margin-bottom: 30px;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .stat-card {
-  background-color: #e9ecef;
+  background-color: var(--neutral-color);
+  color: var(--text-color-light);
   padding: 20px;
   border-radius: 8px;
   text-align: center;
@@ -158,15 +149,17 @@ button[type='submit']:hover {
 }
 
 .stat-card h3 {
-  color: #007bff;
+  color: var(--text-color-light);
   margin-bottom: 10px;
   font-size: 1.4em;
+  font-family: 'Oswald', sans-serif;
 }
 
 .stat-card p {
   font-size: 2.5em;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color-light);
+  font-family: 'Oswald', sans-serif;
 }
 
 .stat-card ul {
@@ -179,9 +172,10 @@ button[type='submit']:hover {
 
 .stat-card li {
   padding: 8px 0;
-  border-bottom: 1px solid #dee2e6;
-  color: #495057;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--text-color-light);
   font-size: 1.1em;
+  font-family: 'Roboto', sans-serif;
 }
 
 .stat-card li:last-child {
