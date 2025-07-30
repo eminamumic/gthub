@@ -6,6 +6,8 @@ const router = express.Router()
 
 router.use(authMiddleware.authenticateToken)
 
+router.get('/export', applicationsController.exportApplicationsCsv)
+
 router.get('/', applicationsController.getApplications)
 
 router.get('/:id', applicationsController.getApplication)
@@ -13,7 +15,5 @@ router.get('/:id', applicationsController.getApplication)
 router.post('/', applicationsController.addApplication)
 
 router.delete('/:id', applicationsController.deleteApplication)
-
-router.get('/export', applicationsController.exportApplicationsCsv)
 
 module.exports = router
