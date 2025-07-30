@@ -1,8 +1,15 @@
 const express = require('express')
-const { loginAdmin } = require('../controllers/authController')
+const authController = require('../controllers/authController')
+const authMiddleware = require('../middleware/authMiddleware')
 
 const router = express.Router()
 
-router.post('/login', loginAdmin)
+router.post('/login', authController.login)
+router.post('/setup-admin', authController.setupAdmin)
+router.put(
+  '/change-password',
+  authMiddleware.authenticateToken,
+  authController.changePassword
+)
 
 module.exports = router
