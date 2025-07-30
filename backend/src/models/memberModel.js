@@ -1,24 +1,45 @@
 const pool = require('../config/db')
 
-async function getAllMembers() {
-  try {
-    const [rows] = await pool.execute(
-      `SELECT 
-                id, 
-                first_name, 
-                last_name, 
-                date_of_birth, 
-                email, 
-                phone, 
-                faculty, 
-                membership_start_date, 
-                membership_expiry_date 
-             FROM gthub_members 
-             ORDER BY membership_expiry_date ASC`
+async function getAllMembers(options = {}) {
+  let query = `
+        SELECT 
+            id, 
+            first_name, 
+            last_name, 
+            date_of_birth, 
+            email, 
+            phone, 
+            faculty, 
+            membership_start_date, 
+            membership_expiry_date 
+        FROM gthub_members 
+    `
+  const params = []
+  const conditions = []
+
+  if (options.search) {
+    const searchTerm = `%${options.search}%`
+    conditions.push(`(first_name LIKE ? OR last_name LIKE ? OR email LIKE ?)`)
+    params.push(searchTerm, searchTerm, searchTerm)
+  }
+
+  if (options.expiringSoon) {
+    conditions.push(
+      `membership_expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)`
     )
+  }
+
+  if (conditions.length > 0) {
+    query += ` WHERE ${conditions.join(' AND ')}`
+  }
+
+  query += ` ORDER BY membership_expiry_date ASC`
+
+  try {
+    const [rows] = await pool.execute(query, params)
     return rows
   } catch (error) {
-    console.error('Greška pri dohvaćanju svih članova:', error)
+    console.error('Greška pri dohvaćanju svih članova (sa filterima):', error)
     throw new Error('Greška pri dohvaćanju članova.')
   }
 }
