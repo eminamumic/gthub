@@ -1,5 +1,6 @@
 const applicationModel = require('../models/applicationModel')
 const workshopModel = require('../models/workshopModel')
+const { Parser } = require('json2csv')
 
 const isValidDate = (dateString) => {
   return dateString && !isNaN(new Date(dateString).getTime())
@@ -145,9 +146,43 @@ async function deleteApplication(req, res) {
   }
 }
 
+async function exportApplicationsCsv(req, res) {
+  try {
+    const applications = await applicationModel.getAllApplications()
+
+    const fields = [
+      { label: 'ID Prijave', value: 'id' },
+      { label: 'ID Radionice', value: 'workshop_id' },
+      { label: 'Naziv Radionice', value: 'workshop_name' },
+      { label: 'Ime', value: 'first_name' },
+      { label: 'Prezime', value: 'last_name' },
+      { label: 'Email', value: 'email' },
+      { label: 'Telefon', value: 'phone' },
+      { label: 'Datum rođenja', value: 'date_of_birth' },
+      { label: 'Fakultet/Škola', value: 'faculty_school' },
+      { label: 'Dodatni tekst', value: 'additional_text' },
+      { label: 'Kanal prijave', value: 'source_channel' },
+      { label: 'Datum prijave', value: 'applied_at' },
+    ]
+
+    const json2csvParser = new Parser({ fields })
+    const csv = json2csvParser.parse(applications)
+
+    res.header('Content-Type', 'text/csv')
+    res.attachment('gthub_applications.csv')
+    res.send(csv)
+  } catch (error) {
+    console.error('Greška pri exportu prijava u CSV:', error.message)
+    res
+      .status(500)
+      .json({ message: 'Interna serverska greška pri exportu prijava.' })
+  }
+}
+
 module.exports = {
   getApplications,
   getApplication,
   addApplication,
   deleteApplication,
+  exportApplicationsCsv,
 }
