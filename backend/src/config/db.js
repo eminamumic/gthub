@@ -9,17 +9,15 @@ const pool = mysql.createPool({
   waitForConnections: true,
 })
 
-async function testDbConnection() {
-  try {
-    const connection = await pool.getConnection()
-    console.log('Successfully connected to the database!')
+pool
+  .getConnection()
+  .then((connection) => {
+    console.log('Uspješno povezan na MySQL bazu podataka!')
     connection.release()
-  } catch (error) {
-    console.error('Error connecting to the database:', error)
+  })
+  .catch((err) => {
+    console.error('Greška pri konekciji na MySQL bazu podataka:', err.message)
     process.exit(1)
-  }
-}
-
-testDbConnection()
+  })
 
 module.exports = pool
