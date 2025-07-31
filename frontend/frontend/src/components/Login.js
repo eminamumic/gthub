@@ -1,3 +1,4 @@
+// frontend/src/components/Login.js
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -20,6 +21,9 @@ function Login({ setAuthToken }) {
       const { token } = response.data
 
       localStorage.setItem('jwtToken', token)
+
+      // KLJUČNO: Postavite Axios default header odmah nakon prijave
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       setAuthToken(token)
 

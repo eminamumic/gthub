@@ -1,6 +1,6 @@
-// frontend/src/components/Members.js
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
+import '../styles/members.css'
 
 function Members() {
   const [members, setMembers] = useState([])
@@ -12,11 +12,7 @@ function Members() {
   const [currentMember, setCurrentMember] = useState(null)
   const [formErrors, setFormErrors] = useState({})
 
-  useEffect(() => {
-    fetchMembers()
-  }, [searchTerm, filterExpiring])
-
-  const fetchMembers = async () => {
+  const fetchMembers = useCallback(async () => {
     setLoading(true)
     setError('')
     try {
@@ -32,7 +28,11 @@ function Members() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [searchTerm, filterExpiring])
+
+  useEffect(() => {
+    fetchMembers()
+  }, [fetchMembers])
 
   const validateForm = (data) => {
     const errors = {}
@@ -71,16 +71,14 @@ function Members() {
 
     try {
       if (currentMember.id) {
-        // Ažuriranje postojećeg člana
         await axios.put(`/api/members/${currentMember.id}`, currentMember)
         alert('Član uspješno ažuriran!')
       } else {
-        // Dodavanje novog člana
         await axios.post('/api/members', currentMember)
         alert('Član uspješno dodan!')
       }
       setIsModalOpen(false)
-      fetchMembers() // Osvježi listu
+      fetchMembers()
     } catch (err) {
       setError(
         err.response?.data?.message || 'Greška prilikom spremanja člana.'
@@ -93,7 +91,7 @@ function Members() {
       try {
         await axios.delete(`/api/members/${id}`)
         alert('Član uspješno obrisan!')
-        fetchMembers() // Osvježi listu
+        fetchMembers()
       } catch (err) {
         setError(err.response?.data?.message || 'Greška pri brisanju člana.')
       }
@@ -118,7 +116,6 @@ function Members() {
   const openEditModal = (member) => {
     setCurrentMember({
       ...member,
-      // Formatiraj datume za input type="date"
       date_of_birth: member.date_of_birth
         ? new Date(member.date_of_birth).toISOString().split('T')[0]
         : '',
@@ -136,7 +133,7 @@ function Members() {
   const handleExport = async () => {
     try {
       const response = await axios.get('/api/members/export', {
-        responseType: 'blob', // Važno za preuzimanje fajla
+        responseType: 'blob',
       })
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
@@ -161,6 +158,7 @@ function Members() {
   if (error) return <p className="error-message">{error}</p>
 
   return (
+    // Dodan je div s klasom "members-container"
     <div className="members-container">
       <h2>Upravljanje članovima</h2>
 
