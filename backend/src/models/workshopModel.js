@@ -37,7 +37,8 @@ async function addWorkshop(name) {
     if (error.code === 'ER_DUP_ENTRY') {
       throw new Error('Radionica sa ovim nazivom već postoji.')
     }
-    throw new new Error('Greška pri dodavanju radionice.')()
+    // ISPRAVLJENO: Ovde je bio typo
+    throw new Error('Greška pri dodavanju radionice.')
   }
 }
 

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const adminModel = require('../models/adminModel')
 const { comparePassword, hashPassword } = require('../utils/passwordUtils')
 const { jwtSecret, jwtExpiresIn } = require('../config/jwt')
+const pool = require('../config/db')
 
 async function login(req, res) {
   const { username, password } = req.body
@@ -91,7 +92,7 @@ async function changePassword(req, res) {
   }
 
   try {
-    const admin = await adminModel.findAdminByUsername(req.user.username) // req.user.username dolazi iz tokena
+    const admin = await adminModel.findAdminByUsername(req.user.username)
     if (!admin) {
       return res.status(404).json({ message: 'Admin korisnik nije pronađen.' })
     }

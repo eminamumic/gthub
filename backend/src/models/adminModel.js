@@ -29,7 +29,12 @@ async function createAdmin(username, hashedPassword) {
   }
 }
 
+async function findAdminById(id) {
+  const [rows] = await pool.execute('SELECT * FROM admins WHERE id = ?', [id])
+  return rows[0]
+}
 module.exports = {
   findAdminByUsername,
   createAdmin,
+  findAdminById,
 }

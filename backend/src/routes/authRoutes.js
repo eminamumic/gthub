@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post('/login', authController.login)
 router.post('/setup-admin', authController.setupAdmin)
-router.put(
+router.post(
   '/change-password',
   authMiddleware.authenticateToken,
   authController.changePassword
