@@ -1,4 +1,3 @@
-// frontend/src/components/Applications.js
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../styles/application.css'
@@ -11,7 +10,6 @@ function Applications({ authToken }) {
   const [loadingApplications, setLoadingApplications] = useState(false)
   const [error, setError] = useState(null)
 
-  // Mapping za kanal saznanja
   const channelMap = {
     0: 'Facebook',
     1: 'Instagram',
@@ -19,14 +17,13 @@ function Applications({ authToken }) {
     3: 'Drugo',
   }
 
-  // Dohvaćanje svih radionica za dropdown listu
   const fetchWorkshops = async () => {
     try {
       setLoadingWorkshops(true)
       const response = await axios.get('/api/workshops')
       setWorkshops(response.data)
       if (response.data.length > 0) {
-        setSelectedWorkshopId(response.data[0].id) // Automatski odaberi prvu radionicu
+        setSelectedWorkshopId(response.data[0].id)
       }
       setError(null)
     } catch (err) {
@@ -37,7 +34,6 @@ function Applications({ authToken }) {
     }
   }
 
-  // Dohvaćanje prijava za odabranu radionicu
   const fetchApplications = async () => {
     if (!selectedWorkshopId) {
       setApplications([])
@@ -53,7 +49,7 @@ function Applications({ authToken }) {
     } catch (err) {
       console.error('Greška pri dohvatanju prijava:', err)
       setError('Došlo je do greške prilikom učitavanja prijava za radionicu.')
-      setApplications([]) // Počisti prijave u slučaju greške
+      setApplications([])
     } finally {
       setLoadingApplications(false)
     }
@@ -61,11 +57,11 @@ function Applications({ authToken }) {
 
   useEffect(() => {
     fetchWorkshops()
-  }, [authToken]) // Dohvati radionice pri učitavanju komponente
+  }, [authToken])
 
   useEffect(() => {
     fetchApplications()
-  }, [selectedWorkshopId, authToken]) // Dohvati prijave kada se odabrana radionica promijeni ili se token promijeni
+  }, [selectedWorkshopId, authToken])
 
   if (loadingWorkshops) return <p>Učitavanje radionica za odabir...</p>
   if (error) return <p className="error-message">{error}</p>

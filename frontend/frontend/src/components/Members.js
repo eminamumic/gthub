@@ -158,7 +158,6 @@ function Members() {
   if (error) return <p className="error-message">{error}</p>
 
   return (
-    // Dodan je div s klasom "members-container"
     <div className="members-container">
       <h2>Upravljanje članovima</h2>
 

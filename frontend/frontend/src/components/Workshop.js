@@ -25,7 +25,7 @@ function Workshops({ authToken }) {
 
   useEffect(() => {
     fetchWorkshops()
-  }, [authToken]) // Dohvati radionice kada se komponenta montira ili se token promijeni
+  }, [authToken])
 
   const handleAddWorkshop = async (e) => {
     e.preventDefault()

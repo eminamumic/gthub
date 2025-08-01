@@ -1,0 +1,94 @@
+:root {
+  --background: #f0f0f0;
+  --background-card: #ffffff;
+  --primary-color: #7c4dff;
+  --text-color-dark: #333333;
+  --text-color-light: #ffffff;
+  --shadow-secondary: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--background);
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  max-width: 450px;
+
+  width: 100%;
+  padding: 2.5rem;
+  margin: 20px;
+  border-radius: 12px;
+  background-color: var(--background-card);
+  box-shadow: var(--shadow-secondary);
+}
+
+.login-container h2 {
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+  color: var(--text-color-dark);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.login-container button[type='submit'] {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  background-color: var(--primary-color);
+  color: var(--text-color-light);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-container button[type='submit']:hover {
+  background-color: #6a4488;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+  .login-container {
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 10px;
+  }
+
+  .login-container h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .login-container input {
+    padding: 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .login-container button[type='submit'] {
+    padding: 0.9rem;
+    font-size: 1rem;
+  }
+}
