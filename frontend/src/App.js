@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import Login from './components/Login'
-import Dashboard from './components/Dashboard'
-import ChangePassword from './components/ChangePassword'
-import Members from './components/Members'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import ChangePassword from './pages/ChangePassword'
+import Members from './pages/Members'
 // DODAJTE NOVE IMPORTE ZA KOMPONENTE RADIONICA I PRIJAVA
-import Workshops from './components/Workshop'
-import Applications from './components/Application' // Nova komponenta za prijave
+import Workshops from './pages/Workshop'
+import Applications from './pages/Application' // Nova komponenta za prijave
 
 import './App.css'
 
