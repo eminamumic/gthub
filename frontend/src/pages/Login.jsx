@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import '../styles/login.css'
+import Button from '../components/Button'
 
 function Login({ setAuthToken }) {
   const [username, setUsername] = useState('')
@@ -37,30 +38,34 @@ function Login({ setAuthToken }) {
 
   return (
     <div className="login-container">
-      <h2>Prijava</h2>
       <form onSubmit={handleSubmit}>
+        <h2>Log in</h2>
         <div className="form-group">
-          <label htmlFor="username">Korisničko ime:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Lozinka:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              placeholder="Example"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              placeholder="aQ98?rqA291%hkd"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
         </div>
         {error && <p className="error-message">{error}</p>}
-        <button type="submit">Prijavi se</button>
+        <Button type="submit">Log in</Button>
       </form>
     </div>
   )
