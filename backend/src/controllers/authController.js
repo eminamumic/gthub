@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 const adminModel = require('../models/adminModel')
 const { comparePassword, hashPassword } = require('../utils/passwordUtils')
 const { jwtSecret, jwtExpiresIn } = require('../config/jwt')
-const pool = require('../config/db')
 
 async function login(req, res) {
   const { username, password } = req.body
@@ -10,22 +9,18 @@ async function login(req, res) {
   if (!username || !password) {
     return res
       .status(400)
-      .json({ message: 'Korisničko ime i lozinka su obavezni.' })
+      .json({ message: 'Username and password are required.' })
   }
 
   try {
     const admin = await adminModel.findAdminByUsername(username)
     if (!admin) {
-      return res
-        .status(401)
-        .json({ message: 'Pogrešno korisničko ime ili lozinka.' })
+      return res.status(401).json({ message: 'Invalid username or password.' })
     }
 
     const isMatch = await comparePassword(password, admin.password_hash)
     if (!isMatch) {
-      return res
-        .status(401)
-        .json({ message: 'Pogrešno korisničko ime ili lozinka.' })
+      return res.status(401).json({ message: 'Invalid username or password.' })
     }
 
     const token = jwt.sign(
@@ -35,7 +30,7 @@ async function login(req, res) {
     )
 
     res.status(200).json({
-      message: 'Uspješna prijava!',
+      message: 'Login successful!',
       token,
       admin: {
         id: admin.id,
@@ -43,8 +38,8 @@ async function login(req, res) {
       },
     })
   } catch (error) {
-    console.error('Greška pri prijavi:', error)
-    res.status(500).json({ message: 'Interna serverska greška.' })
+    console.error('Login error:', error)
+    res.status(500).json({ message: 'Internal server error.' })
   }
 }
 
@@ -54,19 +49,24 @@ async function setupAdmin(req, res) {
   if (!username || !password) {
     return res
       .status(400)
-      .json({ message: 'Korisničko ime i lozinka su obavezni.' })
+      .json({ message: 'Username and password are required.' })
   }
 
   try {
+    const existingAdmin = await adminModel.findAdminByUsername(username)
+    if (existingAdmin) {
+      return res.status(409).json({ message: 'Admin user already exists.' })
+    }
+
     const hashedPassword = await hashPassword(password)
     const newAdmin = await adminModel.createAdmin(username, hashedPassword)
     res
       .status(201)
-      .json({ message: 'Inicijalni admin uspješno kreiran!', admin: newAdmin })
+      .json({ message: 'Initial admin created successfully!', admin: newAdmin })
   } catch (error) {
-    console.error('Greška pri setupu admina:', error)
+    console.error('Admin setup error:', error)
     res.status(500).json({
-      message: error.message || 'Greška pri kreiranju inicijalnog admina.',
+      message: 'Error creating the initial admin.',
     })
   }
 }
@@ -78,40 +78,37 @@ async function changePassword(req, res) {
   if (!oldPassword || !newPassword) {
     return res
       .status(400)
-      .json({ message: 'Stara i nova lozinka su obavezne.' })
+      .json({ message: 'Old and new passwords are required.' })
   }
   if (newPassword.length < 6) {
     return res
       .status(400)
-      .json({ message: 'Nova lozinka mora imati najmanje 6 znakova.' })
+      .json({ message: 'New password must be at least 6 characters long.' })
   }
   if (oldPassword === newPassword) {
     return res
       .status(400)
-      .json({ message: 'Nova lozinka ne smije biti ista kao stara.' })
+      .json({ message: 'New password cannot be the same as the old one.' })
   }
 
   try {
-    const admin = await adminModel.findAdminByUsername(req.user.username)
+    const admin = await adminModel.findAdminById(adminId)
     if (!admin) {
-      return res.status(404).json({ message: 'Admin korisnik nije pronađen.' })
+      return res.status(404).json({ message: 'Admin user not found.' })
     }
 
     const isMatch = await comparePassword(oldPassword, admin.password_hash)
     if (!isMatch) {
-      return res.status(401).json({ message: 'Pogrešna stara lozinka.' })
+      return res.status(401).json({ message: 'Incorrect old password.' })
     }
 
     const hashedPassword = await hashPassword(newPassword)
-    await pool.execute('UPDATE admins SET password_hash = ? WHERE id = ?', [
-      hashedPassword,
-      adminId,
-    ])
+    await adminModel.updateAdminPassword(adminId, hashedPassword)
 
-    res.status(200).json({ message: 'Lozinka uspješno promijenjena.' })
+    res.status(200).json({ message: 'Password changed successfully.' })
   } catch (error) {
-    console.error('Greška pri promjeni lozinke:', error)
-    res.status(500).json({ message: 'Interna serverska greška.' })
+    console.error('Password change error:', error)
+    res.status(500).json({ message: 'Internal server error.' })
   }
 }
 
