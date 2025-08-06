@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import '../styles/login.css'
 import Button from '../components/Button'
+import ErrorMessage from '../components/ErrorMessage'
 
 function Login({ setAuthToken }) {
   const [username, setUsername] = useState('')
@@ -78,7 +79,7 @@ function Login({ setAuthToken }) {
             </div>
           </div>
         </div>
-        {error && <p className="error-message">{error}</p>}
+        {error && <ErrorMessage message={error} type="error" />}
         <Button type="submit">Log in</Button>
       </form>
     </div>
