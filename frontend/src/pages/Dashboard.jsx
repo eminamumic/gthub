@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../styles/dashboard.css'
+import StatCard from '../components/StatCard'
 
 function Dashboard() {
   const [stats, setStats] = useState(null)
@@ -31,22 +32,13 @@ function Dashboard() {
       <h2>Dashboard</h2>
       {stats ? (
         <div className="stats-grid">
-          <div className="stat-card">
-            <h3>Ukupno članova</h3>
-            <p>{stats.totalMembers}</p>
-          </div>
-          <div className="stat-card">
-            <h3>Članovi kojima ističe članarina (30 dana)</h3>
-            <p>{stats.expiringMembers}</p>
-          </div>
-          <div className="stat-card">
-            <h3>Ukupno radionica</h3>
-            <p>{stats.totalWorkshops}</p>
-          </div>
-          <div className="stat-card">
-            <h3>Ukupno prijava</h3>
-            <p>{stats.totalApplications}</p>
-          </div>
+          <StatCard title="Ukupno članova" value={stats.totalMembers} />
+          <StatCard
+            title="Članovi kojima ističe članarina (30 dana)"
+            value={stats.expiringMembers}
+          />
+          <StatCard title="Ukupno radionica" value={stats.totalWorkshops} />
+          <StatCard title="Ukupno prijava" value={stats.totalApplications} />
 
           <div className="stat-card full-width">
             <h3>Prijave po radionici</h3>
