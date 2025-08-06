@@ -1,13 +1,12 @@
 :root {
-  /* Boje */
-  --primary-color: #8156a4; /* ljubičasta */
-  --secondary-color: #f68b21; /* narandžasta */
-  --neutral-color: #6cc8bf; /* svijetlo plava */
+  --primary-color: #8156a4;
+  --secondary-color: #f68b21;
+  --neutral-color: #6cc8bf;
   --text-color: #333;
   --bg-color: #f0f2f5;
-
-  /* Fontovi */
-  --font-oswald: 'Oswald', sans-serif;
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  /--font-oswald: 'Oswald', sans-serif;
   --font-roboto: 'Roboto', sans-serif;
 }
 
