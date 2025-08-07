@@ -19,13 +19,10 @@ async function getDashboardStats(req, res) {
       applicationsBySourceChannel,
     })
   } catch (error) {
-    console.error(
-      'Greška pri dohvaćanju statistike za dashboard:',
-      error.message
-    )
+    console.error('Error fetching dashboard statistics:', error.message)
     res
       .status(500)
-      .json({ message: 'Interna serverska greška pri dohvaćanju statistike.' })
+      .json({ message: 'Internal server error fetching statistics.' })
   }
 }
 
