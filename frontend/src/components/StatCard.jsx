@@ -3,9 +3,9 @@ import '../styles/statcard.css'
 
 const StatCard = ({ value, title }) => {
   return (
-    <div class="stat-card">
-      <div class="value">{value}</div>
-      <div class="title">{title}</div>
+    <div className="stat-card">
+      <div className="value">{value}</div>
+      <div className="title">{title}</div>
     </div>
   )
 }

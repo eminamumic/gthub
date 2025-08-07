@@ -76,11 +76,9 @@ async function changePassword(req, res) {
   const adminId = req.user.id
 
   if (!oldPassword || !newPassword || !confirmNewPassword) {
-    return res
-      .status(400)
-      .json({
-        message: 'Old password, new password, and confirmation are required.',
-      })
+    return res.status(400).json({
+      message: 'Old password, new password, and confirmation are required.',
+    })
   }
   if (newPassword !== confirmNewPassword) {
     return res.status(400).json({ message: 'New passwords do not match.' })
