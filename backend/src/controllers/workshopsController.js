@@ -5,35 +5,30 @@ async function getWorkshops(req, res) {
     const workshops = await workshopModel.getAllWorkshops()
     res.status(200).json(workshops)
   } catch (error) {
-    console.error('Greška pri dohvaćanju radionica (kontroler):', error.message)
+    console.error('Error fetching workshops (controller):', error.message)
     res
       .status(500)
-      .json({ message: 'Interna serverska greška pri dohvaćanju radionica.' })
+      .json({ message: 'Internal server error fetching workshops.' })
   }
 }
 
 async function getWorkshop(req, res) {
   const { id } = req.params
   if (isNaN(id)) {
-    return res
-      .status(400)
-      .json({ message: 'ID radionice mora biti numerički.' })
+    return res.status(400).json({ message: 'Workshop ID must be a number.' })
   }
 
   try {
     const workshop = await workshopModel.getWorkshopById(id)
     if (!workshop) {
-      return res.status(404).json({ message: 'Radionica nije pronađena.' })
+      return res.status(404).json({ message: 'Workshop not found.' })
     }
     res.status(200).json(workshop)
   } catch (error) {
-    console.error(
-      'Greška pri dohvaćanju radionice po ID-u (kontroler):',
-      error.message
-    )
+    console.error('Error fetching workshop by ID (controller):', error.message)
     res
       .status(500)
-      .json({ message: 'Interna serverska greška pri dohvaćanju radionice.' })
+      .json({ message: 'Internal server error fetching workshop.' })
   }
 }
 
@@ -42,7 +37,7 @@ async function addWorkshop(req, res) {
 
   if (!name || typeof name !== 'string' || name.trim().length === 0) {
     return res.status(400).json({
-      message: 'Naziv radionice je obavezan i mora biti validan string.',
+      message: 'Workshop name is required and must be a valid string.',
     })
   }
 
@@ -50,17 +45,15 @@ async function addWorkshop(req, res) {
     const newWorkshop = await workshopModel.addWorkshop(name.trim())
     res
       .status(201)
-      .json({ message: 'Radionica uspješno dodana!', workshop: newWorkshop })
+      .json({ message: 'Workshop successfully added!', workshop: newWorkshop })
   } catch (error) {
-    console.error('Greška pri dodavanju radionice (kontroler):', error.message)
-    if (error.message.includes('Radionica sa ovim nazivom već postoji.')) {
+    console.error('Error adding workshop (controller):', error.message)
+    if (error.message.includes('A workshop with this name already exists.')) {
       return res
         .status(409)
-        .json({ message: 'Radionica sa unesenim nazivom već postoji.' })
+        .json({ message: 'A workshop with the entered name already exists.' })
     }
-    res
-      .status(500)
-      .json({ message: 'Interna serverska greška pri dodavanju radionice.' })
+    res.status(500).json({ message: 'Internal server error adding workshop.' })
   }
 }
 
@@ -69,55 +62,51 @@ async function updateWorkshop(req, res) {
   const { name } = req.body
 
   if (isNaN(id)) {
-    return res
-      .status(400)
-      .json({ message: 'ID radionice mora biti numerički.' })
+    return res.status(400).json({ message: 'Workshop ID must be a number.' })
   }
   if (!name || typeof name !== 'string' || name.trim().length === 0) {
     return res.status(400).json({
       message:
-        'Naziv radionice je obavezan za ažuriranje i mora biti validan string.',
+        'Workshop name is required for an update and must be a valid string.',
     })
   }
 
   try {
     const success = await workshopModel.updateWorkshop(id, name.trim())
     if (!success) {
-      return res.status(404).json({ message: 'Radionica nije pronađena.' })
+      return res.status(404).json({ message: 'Workshop not found.' })
     }
-    res.status(200).json({ message: 'Radionica uspješno ažurirana!' })
+    res.status(200).json({ message: 'Workshop successfully updated!' })
   } catch (error) {
-    console.error('Greška pri ažuriranju radionice (kontroler):', error.message)
-    if (error.message.includes('Radionica sa ovim nazivom već postoji.')) {
+    console.error('Error updating workshop (controller):', error.message)
+    if (error.message.includes('A workshop with this name already exists.')) {
       return res
         .status(409)
-        .json({ message: 'Radionica sa unesenim nazivom već postoji.' })
+        .json({ message: 'A workshop with the entered name already exists.' })
     }
     res
       .status(500)
-      .json({ message: 'Interna serverska greška pri ažuriranju radionice.' })
+      .json({ message: 'Internal server error updating workshop.' })
   }
 }
 
 async function deleteWorkshop(req, res) {
   const { id } = req.params
   if (isNaN(id)) {
-    return res
-      .status(400)
-      .json({ message: 'ID radionice mora biti numerički.' })
+    return res.status(400).json({ message: 'Workshop ID must be a number.' })
   }
 
   try {
     const success = await workshopModel.deleteWorkshop(id)
     if (!success) {
-      return res.status(404).json({ message: 'Radionica nije pronađena.' })
+      return res.status(404).json({ message: 'Workshop not found.' })
     }
-    res.status(200).json({ message: 'Radionica uspješno obrisana.' })
+    res.status(200).json({ message: 'Workshop successfully deleted.' })
   } catch (error) {
-    console.error('Greška pri brisanju radionice (kontroler):', error.message)
+    console.error('Error deleting workshop (controller):', error.message)
     res
       .status(500)
-      .json({ message: 'Interna serverska greška pri brisanju radionice.' })
+      .json({ message: 'Internal server error deleting workshop.' })
   }
 }
 
