@@ -15,7 +15,7 @@
 
 .list-card h3 {
   font-family: var(--font-oswald);
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 500;
   color: var(--secondary-color);
   margin-bottom: 2.5rem;
@@ -32,7 +32,7 @@
 
 .list-card li {
   font-family: var(--font-roboto);
-  font-size: 2rem;
+  font-size: 1.5rem;
   padding: 0.8rem 0;
   border-bottom: 1px solid #eee;
   display: flex;
