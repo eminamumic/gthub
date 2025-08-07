@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../styles/dashboard.css'
 import StatCard from '../components/StatCard'
+import ListCard from '../components/ListCard'
+import ErrorMessage from '../components/ErrorMessage' // Pretpostavljam da imaš ovu komponentu
 
 function Dashboard() {
   const [stats, setStats] = useState(null)
@@ -24,8 +26,9 @@ function Dashboard() {
     fetchStats()
   }, [])
 
-  if (loading) return <p>Učitavanje statistike...</p>
-  if (error) return <p className="error-message">{error}</p>
+  if (loading)
+    return <p className="loading-message">Učitavanje statistike...</p>
+  if (error) return <ErrorMessage message={error} type="error" />
 
   return (
     <div className="dashboard-container">
@@ -33,32 +36,21 @@ function Dashboard() {
       {stats ? (
         <div className="stats-grid">
           <StatCard title="Ukupno članova" value={stats.totalMembers} />
-          <StatCard
-            title="Članovi kojima ističe članarina (30 dana)"
-            value={stats.expiringMembers}
-          />
+          <StatCard title="Istek članarine" value={stats.expiringMembers} />
           <StatCard title="Ukupno radionica" value={stats.totalWorkshops} />
           <StatCard title="Ukupno prijava" value={stats.totalApplications} />
 
-          <div className="stat-card full-width">
-            <h3>Prijave po radionici</h3>
-            <ul>
-              {stats.applicationsByWorkshop.map((item, index) => (
-                <li key={index}>
-                  {item.workshop_name}: {item.application_count}
-                </li>
-              ))}
-            </ul>
+          <div className="full-width">
+            <ListCard
+              title="Prijave po radionici"
+              items={stats.applicationsByWorkshop}
+            />
           </div>
-          <div className="stat-card full-width">
-            <h3>Prijave po kanalu</h3>
-            <ul>
-              {stats.applicationsBySourceChannel.map((item, index) => (
-                <li key={index}>
-                  {item.source_channel}: {item.total}
-                </li>
-              ))}
-            </ul>
+          <div className="full-width">
+            <ListCard
+              title="Prijave po kanalu"
+              items={stats.applicationsBySourceChannel}
+            />
           </div>
         </div>
       ) : (
