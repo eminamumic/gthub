@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import '../styles/members.css'
+import '../styles/message.css'
 
 function Members() {
   const [members, setMembers] = useState([])
@@ -184,7 +185,7 @@ function Members() {
       </div>
 
       {members.length === 0 ? (
-        <p>No members found.</p>
+        <p className="message-container error">No members found.</p>
       ) : (
         <div className="table-responsive">
           <table>
