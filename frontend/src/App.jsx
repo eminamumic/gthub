@@ -54,13 +54,15 @@ function App() {
         <>
           <nav className={`main-nav ${isScrolled ? 'scrolled' : ''}`}>
             <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-            <button onClick={() => navigate('/members')}>Članovi</button>
-            <button onClick={() => navigate('/workshops')}>Radionice</button>
-            <button onClick={() => navigate('/applications')}>Prijave</button>
-            <button onClick={() => navigate('/change-password')}>
-              Promijeni lozinku
+            <button onClick={() => navigate('/members')}>Members</button>
+            <button onClick={() => navigate('/workshops')}>Workshops</button>
+            <button onClick={() => navigate('/applications')}>
+              Applications
             </button>
-            <button onClick={handleLogout}>Odjavi se</button>
+            <button onClick={() => navigate('/change-password')}>
+              Change Password
+            </button>
+            <button onClick={handleLogout}>Logout</button>
           </nav>
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />

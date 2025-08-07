@@ -14,7 +14,7 @@
 }
 
 .list-card h3 {
-  font-family: var(--font-roboto);
+  font-family: var(--font-oswald);
   font-size: 3rem;
   font-weight: 500;
   color: var(--secondary-color);
