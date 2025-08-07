@@ -22,35 +22,28 @@ async function getMembers(req, res) {
     res.status(200).json(members)
   } catch (error) {
     console.error(
-      'Greška pri dohvaćanju članova (kontroler, sa filterima):',
+      'Error fetching members (controller, with filters):',
       error.message
     )
-    res
-      .status(500)
-      .json({ message: 'Interna serverska greška pri dohvaćanju članova.' })
+    res.status(500).json({ message: 'Internal server error fetching members.' })
   }
 }
 
 async function getMember(req, res) {
   const { id } = req.params
   if (isNaN(id)) {
-    return res.status(400).json({ message: 'ID člana mora biti numerički.' })
+    return res.status(400).json({ message: 'Member ID must be a number.' })
   }
 
   try {
     const member = await memberModel.getMemberById(id)
     if (!member) {
-      return res.status(404).json({ message: 'Član nije pronađen.' })
+      return res.status(404).json({ message: 'Member not found.' })
     }
     res.status(200).json(member)
   } catch (error) {
-    console.error(
-      'Greška pri dohvaćanju člana po ID-u (kontroler):',
-      error.message
-    )
-    res
-      .status(500)
-      .json({ message: 'Interna serverska greška pri dohvaćanju člana.' })
+    console.error('Error fetching member by ID (controller):', error.message)
+    res.status(500).json({ message: 'Internal server error fetching member.' })
   }
 }
 
@@ -75,23 +68,23 @@ async function addMember(req, res) {
   ) {
     return res.status(400).json({
       message:
-        'Ime, prezime, datum rođenja, email i datum početka članarine su obavezni.',
+        'First name, last name, date of birth, email, and membership start date are required.',
     })
   }
   if (!isValidEmail(email)) {
     return res
       .status(400)
-      .json({ message: 'Unesite ispravan format email adrese.' })
+      .json({ message: 'Please enter a valid email address format.' })
   }
   if (!isValidDate(date_of_birth) || !isValidDate(membership_start_date)) {
     return res.status(400).json({
       message:
-        'Datum rođenja i datum početka članarine moraju biti validni datumi (YYYY-MM-DD).',
+        'Date of birth and membership start date must be valid dates (YYYY-MM-DD).',
     })
   }
   if (membership_expiry_date && !isValidDate(membership_expiry_date)) {
     return res.status(400).json({
-      message: 'Datum isteka članarine mora biti validan datum (YYYY-MM-DD).',
+      message: 'Membership expiry date must be a valid date (YYYY-MM-DD).',
     })
   }
 
@@ -108,17 +101,17 @@ async function addMember(req, res) {
 
   try {
     const newMember = await memberModel.addMember(memberData)
-    res.status(201).json({ message: 'Član uspješno dodan!', member: newMember })
+    res
+      .status(201)
+      .json({ message: 'Member successfully added!', member: newMember })
   } catch (error) {
-    console.error('Greška pri dodavanju člana (kontroler):', error.message)
-    if (error.message.includes('Član sa ovim emailom već postoji.')) {
+    console.error('Error adding member (controller):', error.message)
+    if (error.message.includes('A member with this email already exists.')) {
       return res
         .status(409)
-        .json({ message: 'Član sa unesenim emailom već postoji.' })
+        .json({ message: 'A member with the entered email already exists.' })
     }
-    res
-      .status(500)
-      .json({ message: 'Interna serverska greška pri dodavanju člana.' })
+    res.status(500).json({ message: 'Internal server error adding member.' })
   }
 }
 
@@ -127,28 +120,28 @@ async function updateMember(req, res) {
   const updateData = req.body
 
   if (isNaN(id)) {
-    return res.status(400).json({ message: 'ID člana mora biti numerički.' })
+    return res.status(400).json({ message: 'Member ID must be a number.' })
   }
   if (Object.keys(updateData).length === 0) {
-    return res.status(400).json({ message: 'Nema podataka za ažuriranje.' })
+    return res.status(400).json({ message: 'No data provided for update.' })
   }
 
   if (updateData.email && !isValidEmail(updateData.email)) {
     return res
       .status(400)
-      .json({ message: 'Unesite ispravan format email adrese.' })
+      .json({ message: 'Please enter a valid email address format.' })
   }
   if (updateData.date_of_birth && !isValidDate(updateData.date_of_birth)) {
     return res
       .status(400)
-      .json({ message: 'Datum rođenja mora biti validan datum (YYYY-MM-DD).' })
+      .json({ message: 'Date of birth must be a valid date (YYYY-MM-DD).' })
   }
   if (
     updateData.membership_start_date &&
     !isValidDate(updateData.membership_start_date)
   ) {
     return res.status(400).json({
-      message: 'Datum početka članarine mora biti validan datum (YYYY-MM-DD).',
+      message: 'Membership start date must be a valid date (YYYY-MM-DD).',
     })
   }
   if (
@@ -156,7 +149,7 @@ async function updateMember(req, res) {
     !isValidDate(updateData.membership_expiry_date)
   ) {
     return res.status(400).json({
-      message: 'Datum isteka članarine mora biti validan datum (YYYY-MM-DD).',
+      message: 'Membership expiry date must be a valid date (YYYY-MM-DD).',
     })
   }
 
@@ -165,39 +158,35 @@ async function updateMember(req, res) {
     if (!success) {
       return res
         .status(404)
-        .json({ message: 'Član nije pronađen ili nema promjena.' })
+        .json({ message: 'Member not found or no changes were made.' })
     }
-    res.status(200).json({ message: 'Član uspješno ažuriran!' })
+    res.status(200).json({ message: 'Member successfully updated!' })
   } catch (error) {
-    console.error('Greška pri ažuriranju člana (kontroler):', error.message)
-    if (error.message.includes('Email već postoji kod drugog člana.')) {
+    console.error('Error updating member (controller):', error.message)
+    if (error.message.includes('Email already exists for another member.')) {
       return res
         .status(409)
-        .json({ message: 'Email već pripada drugom članu.' })
+        .json({ message: 'Email already belongs to another member.' })
     }
-    res
-      .status(500)
-      .json({ message: 'Interna serverska greška pri ažuriranju člana.' })
+    res.status(500).json({ message: 'Internal server error updating member.' })
   }
 }
 
 async function deleteMember(req, res) {
   const { id } = req.params
   if (isNaN(id)) {
-    return res.status(400).json({ message: 'ID člana mora biti numerički.' })
+    return res.status(400).json({ message: 'Member ID must be a number.' })
   }
 
   try {
     const success = await memberModel.deleteMember(id)
     if (!success) {
-      return res.status(404).json({ message: 'Član nije pronađen.' })
+      return res.status(404).json({ message: 'Member not found.' })
     }
-    res.status(200).json({ message: 'Član uspješno obrisan.' })
+    res.status(200).json({ message: 'Member successfully deleted.' })
   } catch (error) {
-    console.error('Greška pri brisanju člana (kontroler):', error.message)
-    res
-      .status(500)
-      .json({ message: 'Interna serverska greška pri brisanju člana.' })
+    console.error('Error deleting member (controller):', error.message)
+    res.status(500).json({ message: 'Internal server error deleting member.' })
   }
 }
 
@@ -207,14 +196,14 @@ async function exportMembersCsv(req, res) {
 
     const fields = [
       { label: 'ID', value: 'id' },
-      { label: 'Ime', value: 'first_name' },
-      { label: 'Prezime', value: 'last_name' },
-      { label: 'Datum rođenja', value: 'date_of_birth' },
+      { label: 'First Name', value: 'first_name' },
+      { label: 'Last Name', value: 'last_name' },
+      { label: 'Date of Birth', value: 'date_of_birth' },
       { label: 'Email', value: 'email' },
-      { label: 'Telefon', value: 'phone' },
-      { label: 'Fakultet', value: 'faculty' },
-      { label: 'Datum početka članarine', value: 'membership_start_date' },
-      { label: 'Datum isteka članarine', value: 'membership_expiry_date' },
+      { label: 'Phone', value: 'phone' },
+      { label: 'Faculty', value: 'faculty' },
+      { label: 'Membership Start Date', value: 'membership_start_date' },
+      { label: 'Membership Expiry Date', value: 'membership_expiry_date' },
     ]
 
     const json2csvParser = new Parser({ fields })
@@ -224,10 +213,10 @@ async function exportMembersCsv(req, res) {
     res.attachment('gthub_members.csv')
     res.send(csv)
   } catch (error) {
-    console.error('Greška pri exportu članova u CSV:', error.message)
+    console.error('Error exporting members to CSV:', error.message)
     res
       .status(500)
-      .json({ message: 'Interna serverska greška pri exportu članova.' })
+      .json({ message: 'Internal server error exporting members.' })
   }
 }
 
