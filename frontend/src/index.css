@@ -1,22 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto:wght@300;400;700&display=swap');
-
 :root {
   --primary-color: #8156a4;
   --secondary-color: #f68b21;
   --neutral-color: #6cc8bf;
   --text-color: #333;
   --bg-color: #f0f2f5;
-  --error-color: #dc3545;
-  --success-color: #28a745;
+  --error-color: #ff4d4f
+
   --font-oswald: 'Oswald', sans-serif;
   --font-roboto: 'Roboto', sans-serif;
 }
+
 body {
   font-family: var(--font-roboto);
   color: var(--text-color);
-  background-image: url('../public/bg.png');
+  background-color: var(--bg-color);
   margin: 0;
-  padding: 0;
 }
 
 h1,

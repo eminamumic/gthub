@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import '../styles/members.css'
-import '../styles/button.css'
 
 function Members() {
   const [members, setMembers] = useState([])
