@@ -55,7 +55,9 @@ function Workshops({ authToken }) {
 
       <form onSubmit={handleAddWorkshop} className="add-workshop-form">
         <div className="form-group">
-          <label htmlFor="newWorkshopName">Naziv nove radionice:</label>
+          <label htmlFor="newWorkshopName" className="label-add-workshop">
+            Naziv nove radionice:
+          </label>
           <input
             type="text"
             id="newWorkshopName"

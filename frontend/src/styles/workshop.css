@@ -14,6 +14,7 @@
   color: var(--primary-color);
   margin-bottom: 2.5rem;
   font-size: 2.8rem;
+  background-color: white;
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
   position: relative;
@@ -45,7 +46,7 @@
 
 .add-workshop-form button[type='submit'] {
   background-color: var(--primary-color);
-  color: var(--text-color-light);
+  color: white;
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
@@ -70,6 +71,7 @@
   font-family: 'Oswald', sans-serif;
   font-size: 2rem;
   font-weight: 500;
+  background-color: white;
 }
 
 .workshops-table {
@@ -95,7 +97,7 @@
 
 .workshops-table th {
   background-color: var(--primary-color);
-  color: var(--text-color-light);
+  color: white;
   font-weight: 600;
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
@@ -108,4 +110,13 @@
 .workshops-table tbody tr:hover {
   background-color: #f0f0f0;
   transition: background-color 0.3s ease;
+}
+
+.label-add-workshop {
+  font-family: var(--font-oswald);
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-color-dark);
+  margin-bottom: 0.4rem;
+  display: block;
 }

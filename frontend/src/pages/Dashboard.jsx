@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import '../styles/dashboard.css'
 import StatCard from '../components/StatCard'
 import ListCard from '../components/ListCard'
 import ErrorMessage from '../components/ErrorMessage'
+import '../styles/dashboard.css'
 
 function Dashboard() {
   const [stats, setStats] = useState(null)
