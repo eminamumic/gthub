@@ -13,11 +13,11 @@ const pool = mysql.createPool({
 pool
   .getConnection()
   .then((connection) => {
-    console.log('Uspješno povezan na MySQL bazu podataka!')
+    console.log('Successfully connected to the MySQL database!')
     connection.release()
   })
   .catch((err) => {
-    console.error('Greška pri konekciji na MySQL bazu podataka:', err.message)
+    console.error('Error connecting to the MySQL database:', err.message)
   })
 
 module.exports = pool
