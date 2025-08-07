@@ -9,8 +9,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  aspect-ratio: 1 / 1; /* kvadratna kartica */
-  min-width: 200px; /* možeš prilagoditi */
+  aspect-ratio: 1 / 1;
+  min-width: 200px;
   max-width: 300px;
   text-align: center;
   position: relative;

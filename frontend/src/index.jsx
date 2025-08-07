@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import axios from 'axios'
-import { BrowserRouter as Router } from 'react-router-dom' // OVO JE JEDINI ISPRAVAN IMPORT ROUTERA
+import { BrowserRouter as Router } from 'react-router-dom'
 
 axios.defaults.baseURL = 'http://localhost:5000'
 

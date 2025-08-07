@@ -1,19 +1,24 @@
-// frontend/src/App.js
 import React, { useState, useEffect } from 'react'
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from 'react-router-dom'
 import axios from 'axios'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import ChangePassword from './pages/ChangePassword'
-import Members from './pages/Members'
-// DODAJTE NOVE IMPORTE ZA KOMPONENTE RADIONICA I PRIJAVA
-import Workshops from './pages/Workshop'
-import Applications from './pages/Application' // Nova komponenta za prijave
 
-import './App.css'
+import Dashboard from './pages/Dashboard'
+import Login from './pages/Login'
+import Members from './pages/Members'
+import Workshops from './pages/Workshop'
+import Applications from './pages/Application'
+import ChangePassword from './pages/ChangePassword'
+
+import './styles/navbar.css'
 
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('jwtToken'))
+  const [isScrolled, setIsScrolled] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -24,6 +29,19 @@ function App() {
     }
   }, [authToken])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      setIsScrolled(scrollTop > 50)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   const handleLogout = () => {
     localStorage.removeItem('jwtToken')
     setAuthToken(null)
@@ -32,98 +50,31 @@ function App() {
 
   return (
     <div className="App">
-      {authToken && (
-        <nav className="main-nav">
-          <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-          <button onClick={() => navigate('/members')}>Članovi</button>
-          {/* NOVI DUGMIĆI ZA NAVIGACIJU */}
-          <button onClick={() => navigate('/workshops')}>Radionice</button>
-          <button onClick={() => navigate('/applications')}>Prijave</button>
-          {/* KRAJ NOVIH DUGMIĆA */}
-          <button onClick={() => navigate('/change-password')}>
-            Promijeni lozinku
-          </button>
-          <button onClick={handleLogout}>Odjavi se</button>
-        </nav>
+      {authToken ? (
+        <>
+          <nav className={`main-nav ${isScrolled ? 'scrolled' : ''}`}>
+            <button onClick={() => navigate('/dashboard')}>Dashboard</button>
+            <button onClick={() => navigate('/members')}>Članovi</button>
+            <button onClick={() => navigate('/workshops')}>Radionice</button>
+            <button onClick={() => navigate('/applications')}>Prijave</button>
+            <button onClick={() => navigate('/change-password')}>
+              Promijeni lozinku
+            </button>
+            <button onClick={handleLogout}>Odjavi se</button>
+          </nav>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/members" element={<Members />} />
+            <Route path="/workshops" element={<Workshops />} />
+            <Route path="/applications" element={<Applications />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+          </Routes>
+        </>
+      ) : (
+        <Routes>
+          <Route path="*" element={<Login setAuthToken={setAuthToken} />} />
+        </Routes>
       )}
-
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            authToken ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <Login setAuthToken={setAuthToken} />
-            )
-          }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            authToken ? (
-              <Dashboard authToken={authToken} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        <Route
-          path="/members"
-          element={
-            authToken ? (
-              <Members authToken={authToken} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        <Route
-          path="/change-password"
-          element={
-            authToken ? (
-              <ChangePassword authToken={authToken} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-
-        {/* NOVE RUTE ZA RADIONICE I PRIJAVE */}
-        <Route
-          path="/workshops"
-          element={
-            authToken ? (
-              <Workshops authToken={authToken} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        <Route
-          path="/applications"
-          element={
-            authToken ? (
-              <Applications authToken={authToken} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        {/* KRAJ NOVIH RUTA */}
-
-        <Route
-          path="*"
-          element={
-            authToken ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-      </Routes>
     </div>
   )
 }
