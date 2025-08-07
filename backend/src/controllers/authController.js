@@ -72,13 +72,18 @@ async function setupAdmin(req, res) {
 }
 
 async function changePassword(req, res) {
-  const { oldPassword, newPassword } = req.body
+  const { oldPassword, newPassword, confirmNewPassword } = req.body
   const adminId = req.user.id
 
-  if (!oldPassword || !newPassword) {
+  if (!oldPassword || !newPassword || !confirmNewPassword) {
     return res
       .status(400)
-      .json({ message: 'Old and new passwords are required.' })
+      .json({
+        message: 'Old password, new password, and confirmation are required.',
+      })
+  }
+  if (newPassword !== confirmNewPassword) {
+    return res.status(400).json({ message: 'New passwords do not match.' })
   }
   if (newPassword.length < 6) {
     return res
