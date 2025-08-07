@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import '../styles/members.css'
+import '../styles/button.css'
 
 function Members() {
   const [members, setMembers] = useState([])
@@ -24,7 +25,7 @@ function Members() {
       })
       setMembers(response.data)
     } catch (err) {
-      setError(err.response?.data?.message || 'Greška pri dohvaćanju članova.')
+      setError(err.response?.data?.message || 'Error fetching members.')
     } finally {
       setLoading(false)
     }
@@ -36,17 +37,17 @@ function Members() {
 
   const validateForm = (data) => {
     const errors = {}
-    if (!data.first_name.trim()) errors.first_name = 'Ime je obavezno.'
-    if (!data.last_name.trim()) errors.last_name = 'Prezime je obavezno.'
+    if (!data.first_name.trim()) errors.first_name = 'First name is required.'
+    if (!data.last_name.trim()) errors.last_name = 'Last name is required.'
     if (!data.email.trim()) {
-      errors.email = 'Email je obavezan.'
+      errors.email = 'Email is required.'
     } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-      errors.email = 'Nevažeći format emaila.'
+      errors.email = 'Invalid email format.'
     }
     if (!data.membership_start_date)
-      errors.membership_start_date = 'Datum početka članarine je obavezan.'
+      errors.membership_start_date = 'Membership start date is required.'
     if (!data.membership_expiry_date)
-      errors.membership_expiry_date = 'Datum isteka članarine je obavezan.'
+      errors.membership_expiry_date = 'Membership expiry date is required.'
 
     if (
       data.membership_start_date &&
@@ -55,10 +56,10 @@ function Members() {
         new Date(data.membership_expiry_date)
     ) {
       errors.membership_expiry_date =
-        'Datum isteka ne može biti prije datuma početka.'
+        'Expiry date cannot be before the start date.'
     }
     if (data.date_of_birth && new Date(data.date_of_birth) > new Date()) {
-      errors.date_of_birth = 'Datum rođenja ne može biti u budućnosti.'
+      errors.date_of_birth = 'Date of birth cannot be in the future.'
     }
 
     setFormErrors(errors)
@@ -72,28 +73,26 @@ function Members() {
     try {
       if (currentMember.id) {
         await axios.put(`/api/members/${currentMember.id}`, currentMember)
-        alert('Član uspješno ažuriran!')
+        alert('Member updated successfully!')
       } else {
         await axios.post('/api/members', currentMember)
-        alert('Član uspješno dodan!')
+        alert('Member added successfully!')
       }
       setIsModalOpen(false)
       fetchMembers()
     } catch (err) {
-      setError(
-        err.response?.data?.message || 'Greška prilikom spremanja člana.'
-      )
+      setError(err.response?.data?.message || 'Error saving member.')
     }
   }
 
   const handleDelete = async (id) => {
-    if (window.confirm('Jeste li sigurni da želite obrisati ovog člana?')) {
+    if (window.confirm('Are you sure you want to delete this member?')) {
       try {
         await axios.delete(`/api/members/${id}`)
-        alert('Član uspješno obrisan!')
+        alert('Member deleted successfully!')
         fetchMembers()
       } catch (err) {
-        setError(err.response?.data?.message || 'Greška pri brisanju člana.')
+        setError(err.response?.data?.message || 'Error deleting member.')
       }
     }
   }
@@ -144,7 +143,7 @@ function Members() {
       link.remove()
       window.URL.revokeObjectURL(url)
     } catch (err) {
-      setError('Greška pri exportu članova u CSV.')
+      setError('Error exporting members to CSV.')
     }
   }
 
@@ -154,17 +153,17 @@ function Members() {
     return date.toLocaleDateString('hr-HR')
   }
 
-  if (loading) return <p className="loading-message">Učitavanje članova...</p>
+  if (loading) return <p className="loading-message">Loading members...</p>
   if (error) return <p className="error-message">{error}</p>
 
   return (
     <div className="members-container">
-      <h2>Upravljanje članovima</h2>
+      <h2>Member Management</h2>
 
       <div className="controls">
         <input
           type="text"
-          placeholder="Pretraži po imenu, prezimenu, emailu..."
+          placeholder="Search by name, last name, email..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
@@ -175,33 +174,33 @@ function Members() {
             checked={filterExpiring}
             onChange={(e) => setFilterExpiring(e.target.checked)}
           />
-          Ističe članarina (30 dana)
+          Membership expiring (30 days)
         </label>
         <button onClick={openAddModal} className="btn btn-add">
-          Dodaj novog člana
+          Add New Member
         </button>
         <button onClick={handleExport} className="btn btn-export">
-          Export u CSV
+          Export to CSV
         </button>
       </div>
 
       {members.length === 0 ? (
-        <p>Nema pronađenih članova.</p>
+        <p>No members found.</p>
       ) : (
         <div className="table-responsive">
           <table>
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Ime</th>
-                <th>Prezime</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Email</th>
-                <th>Telefon</th>
-                <th>Fakultet</th>
-                <th>Datum rođenja</th>
-                <th>Članarina od</th>
-                <th>Članarina do</th>
-                <th>Akcije</th>
+                <th>Phone</th>
+                <th>Faculty</th>
+                <th>Date of Birth</th>
+                <th>Membership From</th>
+                <th>Membership Until</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -221,13 +220,13 @@ function Members() {
                       onClick={() => openEditModal(member)}
                       className="btn btn-edit"
                     >
-                      Uredi
+                      Edit
                     </button>
                     <button
                       onClick={() => handleDelete(member.id)}
                       className="btn btn-delete"
                     >
-                      Obriši
+                      Delete
                     </button>
                   </td>
                 </tr>
@@ -240,10 +239,10 @@ function Members() {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>{currentMember.id ? 'Uredi člana' : 'Dodaj novog člana'}</h3>
+            <h3>{currentMember.id ? 'Edit Member' : 'Add New Member'}</h3>
             <form onSubmit={handleAddEditSubmit}>
               <div className="form-group">
-                <label htmlFor="first_name">Ime:</label>
+                <label htmlFor="first_name">First Name:</label>
                 <input
                   type="text"
                   id="first_name"
@@ -260,7 +259,7 @@ function Members() {
                 )}
               </div>
               <div className="form-group">
-                <label htmlFor="last_name">Prezime:</label>
+                <label htmlFor="last_name">Last Name:</label>
                 <input
                   type="text"
                   id="last_name"
@@ -294,7 +293,7 @@ function Members() {
                 )}
               </div>
               <div className="form-group">
-                <label htmlFor="phone">Telefon:</label>
+                <label htmlFor="phone">Phone:</label>
                 <input
                   type="text"
                   id="phone"
@@ -308,7 +307,7 @@ function Members() {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="faculty">Fakultet:</label>
+                <label htmlFor="faculty">Faculty:</label>
                 <input
                   type="text"
                   id="faculty"
@@ -322,7 +321,7 @@ function Members() {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="date_of_birth">Datum rođenja:</label>
+                <label htmlFor="date_of_birth">Date of Birth:</label>
                 <input
                   type="date"
                   id="date_of_birth"
@@ -341,7 +340,7 @@ function Members() {
                 )}
               </div>
               <div className="form-group">
-                <label htmlFor="membership_start_date">Članarina od:</label>
+                <label htmlFor="membership_start_date">Membership From:</label>
                 <input
                   type="date"
                   id="membership_start_date"
@@ -360,7 +359,9 @@ function Members() {
                 )}
               </div>
               <div className="form-group">
-                <label htmlFor="membership_expiry_date">Članarina do:</label>
+                <label htmlFor="membership_expiry_date">
+                  Membership Until:
+                </label>
                 <input
                   type="date"
                   id="membership_expiry_date"
@@ -380,14 +381,14 @@ function Members() {
               </div>
               <div className="modal-actions">
                 <button type="submit" className="btn btn-add">
-                  {currentMember.id ? 'Ažuriraj' : 'Dodaj'}
+                  {currentMember.id ? 'Update' : 'Add'}
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   className="btn btn-cancel"
                 >
-                  Odustani
+                  Cancel
                 </button>
               </div>
             </form>

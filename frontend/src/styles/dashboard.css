@@ -7,7 +7,6 @@
   font-family: var(--font-oswald);
   color: var(--primary-color);
   text-align: center;
-  text-transform: uppercase;
   letter-spacing: 2px;
   background-color: white;
   font-size: 2rem;
@@ -43,4 +42,17 @@
   font-weight: bold;
   margin-bottom: 5rem;
   color: var(--secondary-color);
+  position: relative;
+}
+
+.dashboard-container h2::after {
+  content: '';
+  width: 100px;
+  height: 4px;
+  background-color: var(--secondary-color);
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
 }
