@@ -3,7 +3,7 @@ import axios from 'axios'
 import '../styles/dashboard.css'
 import StatCard from '../components/StatCard'
 import ListCard from '../components/ListCard'
-import ErrorMessage from '../components/ErrorMessage' // Pretpostavljam da imaš ovu komponentu
+import ErrorMessage from '../components/ErrorMessage'
 
 function Dashboard() {
   const [stats, setStats] = useState(null)
@@ -17,17 +17,14 @@ function Dashboard() {
         setStats(response.data)
         setLoading(false)
       } catch (err) {
-        setError(
-          err.response?.data?.message || 'Neuspješno dohvaćanje statistike.'
-        )
+        setError(err.response?.data?.message || 'Failed to fetch statistics.')
         setLoading(false)
       }
     }
     fetchStats()
   }, [])
 
-  if (loading)
-    return <p className="loading-message">Učitavanje statistike...</p>
+  if (loading) return <p className="loading-message">Loading statistics...</p>
   if (error) return <ErrorMessage message={error} type="error" />
 
   return (
@@ -35,26 +32,32 @@ function Dashboard() {
       <h2>Dashboard</h2>
       {stats ? (
         <div className="stats-grid">
-          <StatCard title="Ukupno članova" value={stats.totalMembers} />
-          <StatCard title="Istek članarine" value={stats.expiringMembers} />
-          <StatCard title="Ukupno radionica" value={stats.totalWorkshops} />
-          <StatCard title="Ukupno prijava" value={stats.totalApplications} />
+          <StatCard title="Total Members" value={stats.totalMembers} />
+          <StatCard
+            title="Memberships Expiring"
+            value={stats.expiringMembers}
+          />
+          <StatCard title="Total Workshops" value={stats.totalWorkshops} />
+          <StatCard
+            title="Total Applications"
+            value={stats.totalApplications}
+          />
 
           <div className="full-width">
             <ListCard
-              title="Prijave po radionici"
+              title="Applications by Workshop"
               items={stats.applicationsByWorkshop}
             />
           </div>
           <div className="full-width">
             <ListCard
-              title="Prijave po kanalu"
+              title="Applications by Channel"
               items={stats.applicationsBySourceChannel}
             />
           </div>
         </div>
       ) : (
-        <p>Nema dostupnih statistika.</p>
+        <p>No statistics available.</p>
       )}
     </div>
   )
