@@ -1,7 +1,7 @@
-// frontend/src/components/Workshops.js
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../styles/workshop.css'
+import Button from '../components/Button/Button'
 
 function Workshops({ authToken }) {
   const [workshops, setWorkshops] = useState([])
@@ -37,8 +37,8 @@ function Workshops({ authToken }) {
       const response = await axios.post('/api/workshops', {
         name: newWorkshopName,
       })
-      setWorkshops([...workshops, response.data]) // Dodajte novu radionicu u stanje
-      setNewWorkshopName('') // Resetujte input polje
+      setWorkshops([...workshops, response.data])
+      setNewWorkshopName('')
       setError(null)
     } catch (err) {
       console.error('Greška pri dodavanju radionice:', err)
@@ -66,7 +66,7 @@ function Workshops({ authToken }) {
             required
           />
         </div>
-        <button type="submit">Dodaj Radionicu</button>
+        <Button text="Dodaj Radionicu"></Button>
       </form>
 
       <h3>Popis Radionica</h3>
