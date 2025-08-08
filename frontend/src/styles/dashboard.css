@@ -5,7 +5,7 @@
 
 .dashboard-container h2 {
   position: relative;
-  font-family: var(--font-oswald);
+  font-family: Oswald;
   color: var(--primary-color);
   text-align: center;
   letter-spacing: 2px;
