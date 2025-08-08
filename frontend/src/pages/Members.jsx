@@ -3,6 +3,7 @@ import axios from 'axios'
 import '../styles/members.css'
 import '../styles/message.css'
 import Button from '../components/Button/Button'
+import Header from '../components/Header/Header'
 
 function Members() {
   const [members, setMembers] = useState([])
@@ -159,7 +160,7 @@ function Members() {
 
   return (
     <div className="members-container">
-      <h2>Member Management</h2>
+      <Header title="Member Menagment"></Header>
 
       <div className="controls">
         <input
