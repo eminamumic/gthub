@@ -3,6 +3,7 @@ import axios from 'axios'
 import StatCard from '../components/StatCard'
 import ListCard from '../components/ListCard'
 import ErrorMessage from '../components/ErrorMessage'
+import Header from '../components/Header/Header'
 import '../styles/dashboard.css'
 
 function Dashboard() {
@@ -29,7 +30,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h2>Dashboard</h2>
+      <Header title="Dashboard"></Header>
       {stats ? (
         <div className="stats-grid">
           <StatCard title="Total Members" value={stats.totalMembers} />

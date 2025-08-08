@@ -3,18 +3,6 @@
   min-height: 100vh;
 }
 
-.dashboard-container h2 {
-  position: relative;
-  font-family: Oswald;
-  color: var(--primary-color);
-  text-align: center;
-  letter-spacing: 2px;
-  background-color: white;
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 5rem;
-}
-
 .stats-grid {
   display: grid;
   gap: 6rem;
@@ -36,16 +24,4 @@
   padding: 2rem;
   max-width: 1500px;
   margin: 0 auto;
-}
-
-.dashboard-container h2::after {
-  content: '';
-  width: 100px;
-  height: 4px;
-  background-color: var(--secondary-color);
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
 }
