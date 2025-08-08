@@ -237,7 +237,11 @@ function Members() {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>{currentMember.id ? 'Edit Member' : 'Add New Member'}</h3>
+            <Header
+              title={currentMember.id ? 'Edit Member' : 'Add New Member'}
+              variant="form"
+            ></Header>
+
             <form onSubmit={handleAddEditSubmit}>
               <div className="form-group modal">
                 <label htmlFor="first_name">First Name:</label>
