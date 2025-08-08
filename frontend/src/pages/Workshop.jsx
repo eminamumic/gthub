@@ -66,7 +66,7 @@ function Workshops({ authToken }) {
             required
           />
         </div>
-        <Button text="Add Workshop" />
+        <Button text="Add Workshop" variant="primary" />
       </form>
 
       <h3>Workshop List</h3>

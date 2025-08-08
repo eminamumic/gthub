@@ -82,7 +82,7 @@ function Login({ setAuthToken }) {
           </div>
         </div>
         {error && <ErrorMessage message={error} type="error" />}
-        <Button type="submit" text={'Log in'}></Button>
+        <Button type="submit" text="Log in" variant="primary"></Button>
       </form>
     </div>
   )

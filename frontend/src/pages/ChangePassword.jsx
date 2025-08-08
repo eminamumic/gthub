@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import Button from '../components/Button/Button'
+
 import ErrorMessage from '../components/ErrorMessage'
 import '../styles/login.css'
+import Button from '../components/Button/Button'
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState('')
@@ -71,13 +72,11 @@ function ChangePassword() {
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
               />
-              <button
-                type="button"
+              <Button
+                text={showPassword ? '🙈' : '👁️'}
                 onClick={togglePasswordVisibility}
-                className="password-toggle-btn"
-              >
-                {showPassword ? '🙈' : '👁️'}
-              </button>
+                variant_2="password-toggle-btn"
+              />
             </div>
           </div>
           <div>
@@ -90,19 +89,17 @@ function ChangePassword() {
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                 required
               />
-              <button
-                type="button"
+              <Button
+                text={showPassword ? '🙈' : '👁️'}
                 onClick={togglePasswordVisibility}
-                className="password-toggle-btn"
-              >
-                {showPassword ? '🙈' : '👁️'}
-              </button>
+                variant_2="password-toggle-btn"
+              />
             </div>
           </div>
         </div>
         {message && <p className="success-message">{message}</p>}
         {error && <ErrorMessage message={error} type="error" />}
-        <Button type="submit">Change Password</Button>
+        <Button text="Change Password" variant="primary" />
       </form>
     </div>
   )
