@@ -7,30 +7,6 @@
   border-radius: 12px;
 }
 
-.members-container h2 {
-  text-align: center;
-  color: var(--secondary-color);
-  margin-bottom: 2.5rem;
-  font-size: 4rem;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  background-color: transparent;
-  position: relative;
-  padding-bottom: 20px;
-}
-
-.members-container h2::after {
-  content: '';
-  width: 100px;
-  height: 4px;
-  background-color: var(--secondary-color);
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
-}
-
 .controls {
   display: flex;
   flex-wrap: wrap;

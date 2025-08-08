@@ -160,7 +160,7 @@ function Members() {
 
   return (
     <div className="members-container">
-      <Header title="Member Menagment"></Header>
+      <Header title="Member Menagment" variant="primary"></Header>
 
       <div className="controls">
         <input

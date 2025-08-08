@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../styles/workshop.css'
 import Button from '../components/Button/Button'
+import Header from '../components/Header/Header'
 
 function Workshops({ authToken }) {
   const [workshops, setWorkshops] = useState([])
@@ -51,7 +52,7 @@ function Workshops({ authToken }) {
 
   return (
     <div className="workshops-container">
-      <h2>Workshop Management</h2>
+      <Header title="Workshop Management" variant="primary"></Header>
 
       <form onSubmit={handleAddWorkshop} className="add-workshop-form">
         <div className="form-group">
@@ -69,7 +70,7 @@ function Workshops({ authToken }) {
         <Button text="Add Workshop" variant="primary" />
       </form>
 
-      <h3>Workshop List</h3>
+      <Header title="Workshop List" variant="secondary"></Header>
       {workshops.length === 0 ? (
         <p>No workshops added yet.</p>
       ) : (
