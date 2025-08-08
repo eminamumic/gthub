@@ -16,8 +16,8 @@ function Workshops({ authToken }) {
       setWorkshops(response.data)
       setError(null)
     } catch (err) {
-      console.error('Greška pri dohvatanju radionica:', err)
-      setError('Došlo je do greške prilikom učitavanja radionica.')
+      console.error('Error fetching workshops:', err)
+      setError('An error occurred while loading workshops.')
     } finally {
       setLoading(false)
     }
@@ -30,7 +30,7 @@ function Workshops({ authToken }) {
   const handleAddWorkshop = async (e) => {
     e.preventDefault()
     if (!newWorkshopName.trim()) {
-      setError('Naziv radionice ne može biti prazan.')
+      setError('Workshop name cannot be empty.')
       return
     }
     try {
@@ -41,22 +41,22 @@ function Workshops({ authToken }) {
       setNewWorkshopName('')
       setError(null)
     } catch (err) {
-      console.error('Greška pri dodavanju radionice:', err)
-      setError('Došlo je do greške prilikom dodavanja radionice.')
+      console.error('Error adding workshop:', err)
+      setError('An error occurred while adding the workshop.')
     }
   }
 
-  if (loading) return <p>Učitavanje radionica...</p>
+  if (loading) return <p>Loading workshops...</p>
   if (error) return <p className="error-message">{error}</p>
 
   return (
     <div className="workshops-container">
-      <h2>Upravljanje Radionicama</h2>
+      <h2>Workshop Management</h2>
 
       <form onSubmit={handleAddWorkshop} className="add-workshop-form">
         <div className="form-group">
           <label htmlFor="newWorkshopName" className="label-add-workshop">
-            Naziv nove radionice:
+            New workshop name:
           </label>
           <input
             type="text"
@@ -66,18 +66,18 @@ function Workshops({ authToken }) {
             required
           />
         </div>
-        <Button text="Dodaj Radionicu"></Button>
+        <Button text="Add Workshop" />
       </form>
 
-      <h3>Popis Radionica</h3>
+      <h3>Workshop List</h3>
       {workshops.length === 0 ? (
-        <p>Nema unesenih radionica.</p>
+        <p>No workshops added yet.</p>
       ) : (
         <table className="workshops-table">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Naziv Radionice</th>
+              <th>Workshop Name</th>
             </tr>
           </thead>
           <tbody>
