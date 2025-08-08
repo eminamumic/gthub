@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../styles/application.css'
+import Header from '../components/Header/Header'
 
 function Applications({ authToken }) {
   const [workshops, setWorkshops] = useState([])
@@ -14,7 +15,7 @@ function Applications({ authToken }) {
     0: 'Facebook',
     1: 'Instagram',
     2: 'LinkedIn',
-    3: 'Drugo',
+    3: 'Other',
   }
 
   const fetchWorkshops = async () => {
@@ -27,8 +28,8 @@ function Applications({ authToken }) {
       }
       setError(null)
     } catch (err) {
-      console.error('Greška pri dohvatanju radionica za prijave:', err)
-      setError('Došlo je do greške prilikom učitavanja liste radionica.')
+      console.error('Error fetching workshops for applications:', err)
+      setError('An error occurred while loading the list of workshops.')
     } finally {
       setLoadingWorkshops(false)
     }
@@ -47,8 +48,8 @@ function Applications({ authToken }) {
       setApplications(response.data)
       setError(null)
     } catch (err) {
-      console.error('Greška pri dohvatanju prijava:', err)
-      setError('Došlo je do greške prilikom učitavanja prijava za radionicu.')
+      console.error('Error fetching applications:', err)
+      setError('An error occurred while loading applications for the workshop.')
       setApplications([])
     } finally {
       setLoadingApplications(false)
@@ -63,15 +64,15 @@ function Applications({ authToken }) {
     fetchApplications()
   }, [selectedWorkshopId, authToken])
 
-  if (loadingWorkshops) return <p>Učitavanje radionica za odabir...</p>
+  if (loadingWorkshops) return <p>Loading workshops...</p>
   if (error) return <p className="error-message">{error}</p>
 
   return (
     <div className="applications-container">
-      <h2>Prijave na Radionice</h2>
+      <Header title="Workshop Applications"></Header>
 
       <div className="form-group">
-        <label htmlFor="workshopSelect">Odaberite Radionicu:</label>
+        <label htmlFor="workshopSelect">Select Workshop:</label>
         <select
           id="workshopSelect"
           value={selectedWorkshopId}
@@ -79,7 +80,7 @@ function Applications({ authToken }) {
           disabled={workshops.length === 0}
         >
           {workshops.length === 0 ? (
-            <option value="">Nema dostupnih radionica</option>
+            <option value="">No available workshops</option>
           ) : (
             workshops.map((workshop) => (
               <option key={workshop.id} value={workshop.id}>
@@ -90,27 +91,30 @@ function Applications({ authToken }) {
         </select>
       </div>
 
-      <h3>
-        Prijave za{' '}
-        {workshops.find((w) => w.id === parseInt(selectedWorkshopId))?.name ||
-          'odabranu radionicu'}
-      </h3>
+      <Header
+        title={`Applications for ${' '}
+        ${
+          workshops.find((w) => w.id === parseInt(selectedWorkshopId))?.name ||
+          'selected workshop'
+        }`}
+        variant="secondary"
+      ></Header>
 
       {loadingApplications ? (
-        <p>Učitavanje prijava...</p>
+        <p>Loading applications...</p>
       ) : applications.length === 0 ? (
-        <p>Nema prijava za ovu radionicu.</p>
+        <p>No applications for this workshop.</p>
       ) : (
         <table className="applications-table">
           <thead>
             <tr>
-              <th>Ime i prezime</th>
-              <th>E-mail</th>
-              <th>Telefon</th>
-              <th>Datum rođenja</th>
-              <th>Fakultet / škola</th>
-              <th>Dodatno polje</th>
-              <th>Kanal saznanja</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Date of Birth</th>
+              <th>School / University</th>
+              <th>Additional Field</th>
+              <th>Referral Channel</th>
             </tr>
           </thead>
           <tbody>
