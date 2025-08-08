@@ -4,9 +4,7 @@
   width: 100%;
   max-width: 1500px;
   margin: 0 auto;
-  background-color: var(--background-card);
   border-radius: 12px;
-  box-shadow: var(--shadow-secondary);
 }
 
 .members-container h2 {
@@ -49,10 +47,10 @@
 .search-input {
   flex-grow: 1;
   padding: 12px 15px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--primary-color);
   border-radius: 8px;
   font-size: 1em;
-  font-family: 'Poppins', sans-serif;
+  font-family: Roboto;
   max-width: 300px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -68,7 +66,7 @@
   align-items: center;
   font-family: 'Poppins', sans-serif;
   font-size: 1em;
-  color: var(--text-color-dark);
+  color: var(--text-color);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -90,8 +88,6 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  box-shadow: var(--shadow-primary);
-  background-color: var(--background-card);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -99,9 +95,8 @@ table {
 table th,
 table td {
   padding: 15px;
-  border-bottom: 1px solid var(--border-color);
   text-align: left;
-  font-family: 'Poppins', sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 0.95em;
 }
 
@@ -155,11 +150,11 @@ table tbody tr:hover {
 }
 
 .modal-content {
-  background-color: var(--background-card);
-  padding: 2.5rem;
+  background-color: white;
+  padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  width: 95%;
+  width: 80%;
   max-width: 550px;
   position: relative;
   text-align: left;
@@ -176,9 +171,8 @@ table tbody tr:hover {
 .modal-content h3 {
   color: var(--primary-color);
   margin-top: 0;
-  margin-bottom: 1.5rem;
   font-family: 'Oswald', sans-serif;
-  font-size: 2.2rem;
+  font-size: 1.5rem;
   text-align: center;
   font-weight: 600;
   text-transform: uppercase;
@@ -189,7 +183,7 @@ table tbody tr:hover {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 2rem;
+
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
 }
@@ -199,7 +193,7 @@ table tbody tr:hover {
 }
 
 .form-group label {
-  font-family: 'Poppins', sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 0.95em;
   font-weight: 500;
   color: var(--text-color-dark);

@@ -241,7 +241,7 @@ function Members() {
           <div className="modal-content">
             <h3>{currentMember.id ? 'Edit Member' : 'Add New Member'}</h3>
             <form onSubmit={handleAddEditSubmit}>
-              <div className="form-group">
+              <div className="form-group modal">
                 <label htmlFor="first_name">First Name:</label>
                 <input
                   type="text"
@@ -255,7 +255,9 @@ function Members() {
                   }
                 />
                 {formErrors.first_name && (
-                  <span className="error-message">{formErrors.first_name}</span>
+                  <span className="message-container error">
+                    {formErrors.first_name}
+                  </span>
                 )}
               </div>
               <div className="form-group">
@@ -272,7 +274,9 @@ function Members() {
                   }
                 />
                 {formErrors.last_name && (
-                  <span className="error-message">{formErrors.last_name}</span>
+                  <span className="message-container error">
+                    {formErrors.last_name}
+                  </span>
                 )}
               </div>
               <div className="form-group">
@@ -289,7 +293,9 @@ function Members() {
                   }
                 />
                 {formErrors.email && (
-                  <span className="error-message">{formErrors.email}</span>
+                  <span className="message-container error">
+                    {formErrors.email}
+                  </span>
                 )}
               </div>
               <div className="form-group">
@@ -334,7 +340,7 @@ function Members() {
                   }
                 />
                 {formErrors.date_of_birth && (
-                  <span className="error-message">
+                  <span className="message-container error">
                     {formErrors.date_of_birth}
                   </span>
                 )}
@@ -353,7 +359,7 @@ function Members() {
                   }
                 />
                 {formErrors.membership_start_date && (
-                  <span className="error-message">
+                  <span className="message-container error">
                     {formErrors.membership_start_date}
                   </span>
                 )}
@@ -374,7 +380,7 @@ function Members() {
                   }
                 />
                 {formErrors.membership_expiry_date && (
-                  <span className="error-message">
+                  <span className="message-container error">
                     {formErrors.membership_expiry_date}
                   </span>
                 )}
