@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button/Button'
 import ErrorMessage from '../components/ErrorMessage'
 import '../styles/login.css'
+import Header from '../components/Header/Header'
 
 import '../styles/message.css'
 
@@ -47,7 +48,7 @@ function Login({ setAuthToken }) {
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit}>
-        <h2>Log in</h2>
+        <Header title="Log in" variant="form"></Header>
         <div className="form-group">
           <div>
             <label htmlFor="username">Username:</label>
