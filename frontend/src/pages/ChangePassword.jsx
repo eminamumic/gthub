@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import Button from '../components/Button'
+import Button from '../components/Button/Button'
 import ErrorMessage from '../components/ErrorMessage'
 import '../styles/login.css'
 

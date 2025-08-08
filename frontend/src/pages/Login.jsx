@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import Button from '../components/Button'
+import Button from '../components/Button/Button'
 import ErrorMessage from '../components/ErrorMessage'
 import '../styles/login.css'
-import '../styles/button.css'
+
 import '../styles/message.css'
 
 function Login({ setAuthToken }) {
@@ -82,7 +82,7 @@ function Login({ setAuthToken }) {
           </div>
         </div>
         {error && <ErrorMessage message={error} type="error" />}
-        <Button type="submit">Log in</Button>
+        <Button type="submit" text={'Log in'}></Button>
       </form>
     </div>
   )

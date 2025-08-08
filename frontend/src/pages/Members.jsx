@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import '../styles/members.css'
 import '../styles/message.css'
+import Button from '../components/Button/Button'
 
 function Members() {
   const [members, setMembers] = useState([])
@@ -176,12 +177,9 @@ function Members() {
           />
           Membership expiring (30 days)
         </label>
-        <button onClick={openAddModal} className="btn btn-add">
-          Add New Member
-        </button>
-        <button onClick={handleExport} className="btn btn-export">
-          Export to CSV
-        </button>
+        <Button onClick={openAddModal} variant="add" text="Add New Member" />
+
+        <Button onClick={handleExport} variant="export" text="Export to CSV" />
       </div>
 
       {members.length === 0 ? (
@@ -216,18 +214,17 @@ function Members() {
                   <td>{formatDate(member.membership_start_date)}</td>
                   <td>{formatDate(member.membership_expiry_date)}</td>
                   <td className="actions-column">
-                    <button
+                    <Button
                       onClick={() => openEditModal(member)}
-                      className="btn btn-edit"
-                    >
-                      Edit
-                    </button>
-                    <button
+                      variant="edit"
+                      text="Edit"
+                    />
+
+                    <Button
                       onClick={() => handleDelete(member.id)}
-                      className="btn btn-delete"
-                    >
-                      Delete
-                    </button>
+                      variant="delete"
+                      text="Delete"
+                    />
                   </td>
                 </tr>
               ))}
@@ -386,16 +383,16 @@ function Members() {
                 )}
               </div>
               <div className="modal-actions">
-                <button type="submit" className="btn btn-add">
-                  {currentMember.id ? 'Update' : 'Add'}
-                </button>
-                <button
-                  type="button"
+                <Button
+                  variant="add"
+                  text={currentMember.id ? 'Update' : 'Add'}
+                />
+
+                <Button
                   onClick={() => setIsModalOpen(false)}
-                  className="btn btn-cancel"
-                >
-                  Cancel
-                </button>
+                  variant="cancel"
+                  text="Cancel"
+                />
               </div>
             </form>
           </div>
