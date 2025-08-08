@@ -4,6 +4,7 @@ import axios from 'axios'
 import ErrorMessage from '../components/ErrorMessage'
 import '../styles/login.css'
 import Button from '../components/Button/Button'
+import Header from '../components/Header/Header'
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState('')
@@ -50,7 +51,8 @@ function ChangePassword() {
   return (
     <div className="login-container password">
       <form onSubmit={handleSubmit}>
-        <h2>Change Password</h2>
+        <Header title="Change Password" variant="form"></Header>
+
         <div className="form-group">
           <div>
             <label htmlFor="oldPassword">Old password:</label>
