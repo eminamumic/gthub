@@ -1,3 +1,10 @@
+:root {
+  --primary-color: #7b4aa0;
+  --primary-hover: #6a4185;
+  --card-min-width: 160px;
+  --card-max-width: 340px;
+}
+
 .stat-card {
   background-color: var(--primary-color);
   color: white;
