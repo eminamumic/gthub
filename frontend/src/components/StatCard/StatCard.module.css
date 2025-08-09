@@ -1,0 +1,143 @@
+.stat-card {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  min-width: var(--card-min-width);
+  max-width: var(--card-max-width);
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) rotate(2deg);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  background-color: var(--primary-hover);
+}
+
+.title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.1rem, 1.6vw, 1.8rem);
+  font-weight: 700;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+}
+
+.value {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1.5rem;
+  margin-bottom: -0.5rem;
+}
+
+.subtitle {
+  font-size: clamp(0.8rem, 1.3vw, 1rem);
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --card-max-width: 380px;
+    --card-min-width: 220px;
+  }
+  .stat-grid {
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+  .stat-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  :root {
+    --card-max-width: 340px;
+    --card-min-width: 200px;
+  }
+  .stat-grid {
+    gap: 1rem;
+    padding: 1rem 2rem;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  :root {
+    --card-max-width: 320px;
+    --card-min-width: 180px;
+  }
+  .stat-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  :root {
+    --card-max-width: 300px;
+    --card-min-width: 170px;
+  }
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+    padding: 0.75rem;
+  }
+  .value {
+    margin-top: 1.25rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  :root {
+    --card-max-width: 280px;
+    --card-min-width: 160px;
+  }
+  .stat-grid {
+    grid-template-columns: repeat(1, minmax(160px, 1fr));
+    gap: 0.8rem;
+  }
+  .stat-card {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 575px) {
+  :root {
+    --card-max-width: 260px;
+    --card-min-width: 140px;
+  }
+  .stat-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    padding: 0.5rem;
+  }
+  .stat-card {
+    min-width: auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+  .title {
+    font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  }
+  .value {
+    font-size: clamp(1.6rem, 7.5vw, 2.6rem);
+    margin-top: 0.8rem;
+  }
+}
