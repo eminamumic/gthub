@@ -1,41 +1,48 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import Button from '../components/Button/Button'
 import ErrorMessage from '../components/ErrorMessage'
-import '../styles/login.css'
-import Header from '../components/Header/Header'
-
+import Form from '../components/Form/Form'
+import styles from '../styles/login.module.css'
 import '../styles/message.css'
 
 function Login({ setAuthToken }) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData, setFormData] = useState({ username: '', password: '' })
   const [error, setError] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
+  const loginFields = [
+    {
+      name: 'username',
+      label: 'Username',
+      type: 'text',
+      placeholder: 'Example',
+      required: true,
+    },
+    {
+      name: 'password',
+      label: 'Password',
+      type: 'password',
+      placeholder: 'aQ98?rqA291%hkd',
+      required: true,
+    },
+  ]
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
-      const response = await axios.post('/api/auth/login', {
-        username,
-        password,
-      })
-
+      const response = await axios.post('/api/auth/login', formData)
       const { token } = response.data
 
       localStorage.setItem('jwtToken', token)
-
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
       setAuthToken(token)
-
       navigate('/dashboard')
     } catch (err) {
       setError(
@@ -46,45 +53,16 @@ function Login({ setAuthToken }) {
   }
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <Header title="Log in" variant="form"></Header>
-        <div className="form-group">
-          <div>
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              placeholder="Example"
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <div className="password-input-wrapper">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                value={password}
-                placeholder="aQ98?rqA291%hkd"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className="password-toggle-btn"
-              >
-                {showPassword ? '🙈' : '👁️'}
-              </button>
-            </div>
-          </div>
-        </div>
-        {error && <ErrorMessage message={error} type="error" />}
-        <Button type="submit" text="Log in" variant="primary"></Button>
-      </form>
+    <div className={styles.loginContainer}>
+      <Form
+        fields={loginFields}
+        formData={formData}
+        onFormChange={handleFormChange}
+        onSubmit={handleSubmit}
+        title="Log in"
+        submitButtonText="Log in"
+      />
+      {error && <ErrorMessage message={error} type="error" />}
     </div>
   )
 }
