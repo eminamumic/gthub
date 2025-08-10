@@ -1,0 +1,13 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .loginContainer {
+    padding: 2rem;
+  }
+}
