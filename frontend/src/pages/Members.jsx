@@ -28,12 +28,15 @@ function Members() {
     setLoading(true)
     setError('')
     try {
-      const response = await axios.get('/api/members', {
-        params: {
-          search: searchTerm,
-          expiringSoon: filterExpiring,
-        },
-      })
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/members`,
+        {
+          params: {
+            search: searchTerm,
+            expiringSoon: filterExpiring,
+          },
+        }
+      )
       setMembers(response.data)
     } catch (err) {
       setError(err.response?.data?.message || 'Error fetching members.')

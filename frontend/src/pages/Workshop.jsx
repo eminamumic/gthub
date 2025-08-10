@@ -13,7 +13,9 @@ function Workshops({ authToken }) {
   const fetchWorkshops = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/workshops')
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/workshops`
+      )
       setWorkshops(response.data)
       setError(null)
     } catch (err) {
@@ -35,9 +37,12 @@ function Workshops({ authToken }) {
       return
     }
     try {
-      const response = await axios.post('/api/workshops', {
-        name: newWorkshopName,
-      })
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/workshops`,
+        {
+          name: newWorkshopName,
+        }
+      )
       setWorkshops([...workshops, response.data])
       setNewWorkshopName('')
       setError(null)

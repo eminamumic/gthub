@@ -14,7 +14,8 @@ function ChangePassword() {
   const [error, setError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault()
     setShowPassword(!showPassword)
   }
 
@@ -34,11 +35,14 @@ function ChangePassword() {
     }
 
     try {
-      const response = await axios.post('/api/auth/change-password', {
-        oldPassword,
-        newPassword,
-        confirmNewPassword,
-      })
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/auth/change-password`,
+        {
+          oldPassword,
+          newPassword,
+          confirmNewPassword,
+        }
+      )
       setMessage(response.data.message)
       setOldPassword('')
       setNewPassword('')
@@ -51,13 +55,13 @@ function ChangePassword() {
   return (
     <div className="login-container password">
       <form onSubmit={handleSubmit}>
-        <Header title="Change Password" variant="form"></Header>
+        <Header title="Change Password" variant="form" />
 
         <div className="form-group">
           <div>
             <label htmlFor="oldPassword">Old password:</label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="oldPassword"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
@@ -78,6 +82,7 @@ function ChangePassword() {
                 text={showPassword ? '🙈' : '👁️'}
                 onClick={togglePasswordVisibility}
                 variant_2="password-toggle-btn"
+                type="button"
               />
             </div>
           </div>
@@ -95,13 +100,14 @@ function ChangePassword() {
                 text={showPassword ? '🙈' : '👁️'}
                 onClick={togglePasswordVisibility}
                 variant_2="password-toggle-btn"
+                type="button"
               />
             </div>
           </div>
         </div>
         {message && <p className="success-message">{message}</p>}
         {error && <ErrorMessage message={error} type="error" />}
-        <Button text="Change Password" variant="primary" />
+        <Button text="Change Password" variant="primary" type="submit" />
       </form>
     </div>
   )

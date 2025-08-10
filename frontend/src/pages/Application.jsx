@@ -94,7 +94,7 @@ function Applications({ authToken }) {
       </div>
 
       <Header
-        title={`Applications for ${' '}${
+        title={`Applications for ${
           workshops.find((w) => w.id === parseInt(selectedWorkshopId))?.name ||
           'selected workshop'
         }`}
