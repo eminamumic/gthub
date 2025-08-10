@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom'
 import axios from 'axios'
 
+import Navbar from './components/Navbar/Navbar'
+
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Members from './pages/Members'
@@ -14,11 +16,8 @@ import Workshops from './pages/Workshop'
 import Applications from './pages/Application'
 import ChangePassword from './pages/ChangePassword'
 
-import './styles/navbar.css'
-
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('jwtToken'))
-  const [isScrolled, setIsScrolled] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -30,46 +29,23 @@ function App() {
   }, [authToken])
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      setIsScrolled(scrollTop > 50)
+    if (!authToken) {
+      navigate('/login')
     }
-
-    window.addEventListener('scroll', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  const handleLogout = () => {
-    localStorage.removeItem('jwtToken')
-    setAuthToken(null)
-    navigate('/login')
-  }
+  }, [authToken, navigate])
 
   return (
     <div className="App">
       {authToken ? (
         <>
-          <nav className={`main-nav ${isScrolled ? 'scrolled' : ''}`}>
-            <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-            <button onClick={() => navigate('/members')}>Members</button>
-            <button onClick={() => navigate('/workshops')}>Workshops</button>
-            <button onClick={() => navigate('/applications')}>
-              Applications
-            </button>
-            <button onClick={() => navigate('/change-password')}>
-              Change Password
-            </button>
-            <button onClick={handleLogout}>Logout</button>
-          </nav>
+          <Navbar setAuthToken={setAuthToken} />
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/members" element={<Members />} />
             <Route path="/workshops" element={<Workshops />} />
             <Route path="/applications" element={<Applications />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="*" element={<Dashboard />} />
           </Routes>
         </>
       ) : (

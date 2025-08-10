@@ -1,0 +1,118 @@
+.mainNav {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Roboto, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.mainNav.scrolled {
+  padding: 0.75rem 2rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-color);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.navLinks {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navLinks button {
+  background-color: transparent;
+  color: var(--text-color);
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.navLinks button:last-of-type {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.navLinks button:last-of-type:hover {
+  background-color: var(--neutral-color);
+}
+
+.navLinks button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .navLinks {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .navLinks.show {
+    display: flex;
+  }
+
+  .navLinks button {
+    width: 100%;
+    text-align: left;
+    padding: 0.8rem 2rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .navLinks button:last-of-type {
+    text-align: center;
+    border-bottom: none;
+  }
+}
