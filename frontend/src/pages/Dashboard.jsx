@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import StatCard from '../components/StatCard/StatCard'
-import ListCard from '../components/ListCard'
+import ListCard from '../components/ListCard/ListCard'
 import ErrorMessage from '../components/ErrorMessage'
 import Header from '../components/Header/Header'
 import '../styles/dashboard.css'

@@ -1,4 +1,4 @@
-.list-card {
+.listCard {
   background-color: #fff;
   border-radius: 12px;
   padding: 2.5rem 2rem;
@@ -7,19 +7,19 @@
   border: 1px solid #eee;
 }
 
-.list-card:hover {
+.listCard:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   border-color: var(--neutral-color);
 }
 
-.list-card ul {
+.listCard ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.list-card li {
+.listCard li {
   font-family: Roboto;
   font-size: 1.5rem;
   padding: 0.8rem 0;
@@ -30,10 +30,10 @@
   color: #555;
 }
 
-.list-card li:last-child {
+.listCard li:last-child {
   border-bottom: none;
 }
 
-.list-card li:hover {
+.listCard li:hover {
   color: var(--neutral-color);
 }
