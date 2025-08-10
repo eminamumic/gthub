@@ -20,7 +20,7 @@
 }
 
 .listCard li {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 1.5rem;
   padding: 0.8rem 0;
   border-bottom: 1px solid #eee;
@@ -36,4 +36,48 @@
 
 .listCard li:hover {
   color: var(--neutral-color);
+}
+
+@media (max-width: 480px) {
+  .listCard {
+    padding: 1.2rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .listCard li {
+    font-size: 0.9rem;
+    padding: 0.6rem 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .listCard {
+    padding: 1.8rem 1.5rem;
+    border-radius: 10px;
+  }
+
+  .listCard li {
+    font-size: 1.1rem;
+    padding: 0.7rem 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .listCard {
+    padding: 2rem 1.8rem;
+  }
+
+  .listCard li {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .listCard {
+    max-width: 900px;
+    margin: auto;
+  }
 }
