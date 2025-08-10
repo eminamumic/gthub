@@ -14,7 +14,9 @@ function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get('/api/stats/dashboard')
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/stats/dashboard`
+        )
         setStats(response.data)
         setLoading(false)
       } catch (err) {

@@ -37,7 +37,10 @@ function Login({ setAuthToken }) {
     e.preventDefault()
 
     try {
-      const response = await axios.post('/api/auth/login', formData)
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/auth/login`,
+        formData
+      )
       const { token } = response.data
 
       localStorage.setItem('jwtToken', token)

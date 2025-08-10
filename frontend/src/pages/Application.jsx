@@ -21,7 +21,9 @@ function Applications({ authToken }) {
   const fetchWorkshops = async () => {
     try {
       setLoadingWorkshops(true)
-      const response = await axios.get('/api/workshops')
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/workshops`
+      )
       setWorkshops(response.data)
       if (response.data.length > 0) {
         setSelectedWorkshopId(response.data[0].id)
@@ -43,7 +45,7 @@ function Applications({ authToken }) {
     try {
       setLoadingApplications(true)
       const response = await axios.get(
-        `/api/applications/workshop/${selectedWorkshopId}`
+        `${process.env.REACT_APP_API_URL}/applications/workshop/${selectedWorkshopId}`
       )
       setApplications(response.data)
       setError(null)
@@ -92,8 +94,7 @@ function Applications({ authToken }) {
       </div>
 
       <Header
-        title={`Applications for ${' '}
-        ${
+        title={`Applications for ${' '}${
           workshops.find((w) => w.id === parseInt(selectedWorkshopId))?.name ||
           'selected workshop'
         }`}
